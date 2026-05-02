@@ -1,0 +1,1611 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IPA Kelas IX - Belajar Cerdas</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0f0c29;
+  --bg2: #1a1a2e;
+  --card: rgba(255,255,255,0.05);
+  --card2: rgba(255,255,255,0.1);
+  --accent: #a855f7;
+  --accent2: #06b6d4;
+  --accent3: #f59e0b;
+  --green: #22c55e;
+  --red: #ef4444;
+  --text: #e2e8f0;
+  --text2: #94a3b8;
+  --border: rgba(255,255,255,0.1);
+  --eyecare-bg: #f5f0e8;
+  --eyecare-card: #fff8f0;
+  --eyecare-text: #3d2b1f;
+  --eyecare-text2: #8b6f5e;
+  --eyecare-accent: #d4844a;
+  --eyecare-border: #e8d5c4;
+}
+.eyecare {
+  --bg: #f5f0e8;
+  --bg2: #ede8df;
+  --card: rgba(212,132,74,0.07);
+  --card2: rgba(212,132,74,0.12);
+  --accent: #d4844a;
+  --accent2: #5c9e8c;
+  --accent3: #c17f3a;
+  --text: #3d2b1f;
+  --text2: #8b6f5e;
+  --border: rgba(212,132,74,0.2);
+  --bg: var(--eyecare-bg);
+  --card: var(--eyecare-card);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  transition: all 0.4s ease;
+  overflow-x: hidden;
+}
+body.eyecare { background: #f5f0e8; }
+body.eyecare .card, body.eyecare .materi-card { background: #fff8f0; border-color: #e8d5c4; }
+body.eyecare .navbar { background: #ede8df; border-bottom: 1px solid #e8d5c4; }
+
+/* NAVBAR */
+.navbar {
+  position: fixed; top: 0; left: 0; right: 0;
+  background: rgba(15,12,41,0.95);
+  backdrop-filter: blur(12px);
+  z-index: 1000;
+  padding: 12px 20px;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+}
+.logo { font-size: 1.1rem; font-weight: 900; background: linear-gradient(135deg, #a855f7, #06b6d4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.nav-btns { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.nav-btn {
+  padding: 6px 14px; border-radius: 20px; border: 1px solid var(--border);
+  background: var(--card); color: var(--text); font-size: 0.78rem; font-weight: 700;
+  cursor: pointer; transition: all 0.2s; font-family: 'Nunito', sans-serif;
+  white-space: nowrap;
+}
+.nav-btn:hover, .nav-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+.nav-btn.eyecare-btn { background: linear-gradient(135deg,#22c55e,#06b6d4); border: none; color: #fff; }
+
+/* PAGES */
+.page { display: none; padding-top: 70px; min-height: 100vh; }
+.page.active { display: block; }
+
+/* MATERI PAGE */
+.hero {
+  text-align: center; padding: 40px 20px 30px;
+  background: linear-gradient(135deg, rgba(168,85,247,0.15), rgba(6,182,212,0.15));
+}
+.hero h1 { font-size: clamp(1.6rem, 4vw, 2.6rem); font-weight: 900; margin-bottom: 8px;
+  background: linear-gradient(135deg, #a855f7, #06b6d4, #f59e0b);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.hero p { color: var(--text2); font-size: 0.95rem; }
+
+/* SEARCH BAR */
+.search-bar {
+  max-width: 700px; margin: 20px auto; padding: 0 20px;
+}
+.search-input-wrap { position: relative; }
+.search-input {
+  width: 100%; padding: 14px 50px 14px 20px;
+  background: var(--card2); border: 1px solid var(--border);
+  border-radius: 50px; color: var(--text); font-size: 0.95rem; font-family: 'Nunito', sans-serif;
+  outline: none; transition: all 0.3s;
+}
+.search-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(168,85,247,0.2); }
+.search-btn {
+  position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  border: none; padding: 8px 16px; border-radius: 30px; color: #fff;
+  cursor: pointer; font-size: 0.8rem; font-weight: 700; font-family: 'Nunito', sans-serif;
+}
+.ai-result {
+  background: var(--card2); border: 1px solid var(--border);
+  border-radius: 16px; padding: 16px; margin-top: 12px;
+  font-size: 0.9rem; line-height: 1.6; display: none; animation: fadeIn 0.3s;
+}
+.ai-result.show { display: block; }
+
+/* MATERI GRID */
+.materi-container { max-width: 900px; margin: 0 auto; padding: 0 16px 100px; }
+.materi-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 16px; margin-bottom: 12px; overflow: hidden;
+  transition: all 0.3s; cursor: pointer;
+}
+.materi-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+.materi-header {
+  display: flex; align-items: center; gap: 12px;
+  padding: 16px; user-select: none;
+}
+.materi-num {
+  width: 38px; height: 38px; border-radius: 12px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 900; font-size: 0.85rem; color: #fff;
+}
+.materi-title { flex: 1; font-weight: 700; font-size: 0.9rem; }
+.materi-class { font-size: 0.7rem; background: var(--card2); padding: 3px 8px; border-radius: 10px; color: var(--text2); }
+.materi-arrow { font-size: 1rem; transition: transform 0.3s; }
+.materi-card.open .materi-arrow { transform: rotate(180deg); }
+.materi-content {
+  max-height: 0; overflow: hidden; transition: max-height 0.4s ease;
+  padding: 0 16px;
+}
+.materi-card.open .materi-content { max-height: 2000px; padding-bottom: 16px; }
+.materi-content p { font-size: 0.88rem; line-height: 1.7; color: var(--text2); margin-bottom: 10px; }
+.materi-content .formula {
+  background: rgba(168,85,247,0.1); border-left: 3px solid var(--accent);
+  padding: 10px 14px; border-radius: 0 8px 8px 0; font-family: monospace;
+  font-size: 0.85rem; margin: 8px 0;
+}
+
+/* FEATURE BUTTONS */
+.feature-bar {
+  display: flex; justify-content: center; gap: 10px; padding: 16px 20px;
+  flex-wrap: wrap; max-width: 900px; margin: 0 auto;
+}
+.feat-btn {
+  padding: 10px 18px; border-radius: 50px;
+  border: 1px solid var(--border); background: var(--card);
+  color: var(--text); font-size: 0.82rem; font-weight: 700;
+  cursor: pointer; transition: all 0.25s; font-family: 'Nunito', sans-serif;
+  display: flex; align-items: center; gap: 6px;
+}
+.feat-btn:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+/* FLOATING PANELS */
+.float-panel {
+  position: fixed; bottom: 20px; right: 20px; z-index: 500;
+  width: 320px; background: var(--bg2);
+  border: 1px solid var(--border); border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  display: none; flex-direction: column;
+  max-height: 80vh;
+}
+.float-panel.show { display: flex; }
+.float-panel-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 14px 16px; border-bottom: 1px solid var(--border);
+  font-weight: 800; font-size: 0.9rem;
+}
+.close-panel {
+  background: none; border: none; color: var(--text); cursor: pointer; font-size: 1.2rem;
+}
+
+/* CANVAS DRAW */
+#drawCanvas {
+  width: 100%; min-height: 240px; background: rgba(255,255,255,0.05);
+  border-radius: 12px; cursor: crosshair; touch-action: none;
+}
+.draw-tools { display: flex; gap: 8px; padding: 10px; flex-wrap: wrap; }
+.draw-btn { padding: 6px 12px; border-radius: 10px; border: 1px solid var(--border);
+  background: var(--card); color: var(--text); cursor: pointer; font-size: 0.75rem;
+  font-weight: 700; font-family: 'Nunito', sans-serif; }
+.draw-btn:hover { background: var(--accent); color: #fff; }
+.color-pick { width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--border); cursor: pointer; }
+
+/* BALL PHYSICS */
+#ballCanvas {
+  position: fixed; top: 70px; left: 0; width: 100%; height: calc(100vh - 70px);
+  pointer-events: none; z-index: 200; display: none;
+}
+#ballCanvas.show { display: block; pointer-events: all; }
+
+/* QUIZ PAGE */
+.quiz-container { max-width: 750px; margin: 0 auto; padding: 20px 16px 100px; }
+.quiz-nav {
+  display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 20px;
+  background: var(--card); padding: 12px; border-radius: 16px;
+  max-height: 120px; overflow-y: auto;
+}
+.q-dot {
+  width: 36px; height: 36px; border-radius: 8px; border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center; font-size: 0.75rem;
+  font-weight: 800; cursor: pointer; transition: all 0.2s; background: var(--card);
+}
+.q-dot:hover { border-color: var(--accent); }
+.q-dot.answered-correct { background: rgba(34,197,94,0.3); border-color: #22c55e; color: #22c55e; }
+.q-dot.answered-wrong { background: rgba(239,68,68,0.3); border-color: #ef4444; color: #ef4444; }
+.q-dot.current { background: var(--accent); border-color: var(--accent); color: #fff; }
+.q-dot.locked { opacity: 0.5; cursor: not-allowed; }
+
+.quiz-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 20px; padding: 24px; margin-bottom: 16px;
+  animation: fadeIn 0.3s;
+}
+.quiz-q-num { font-size: 0.78rem; color: var(--text2); font-weight: 700; margin-bottom: 12px; }
+.quiz-question { font-size: 0.98rem; font-weight: 700; line-height: 1.6; margin-bottom: 20px; }
+.quiz-options { display: flex; flex-direction: column; gap: 10px; }
+.quiz-option {
+  padding: 13px 16px; border-radius: 12px; border: 1.5px solid var(--border);
+  background: var(--card); cursor: pointer; transition: all 0.25s;
+  font-size: 0.88rem; font-weight: 600; text-align: left; font-family: 'Nunito', sans-serif;
+  color: var(--text);
+}
+.quiz-option:hover:not(.disabled) { border-color: var(--accent); background: rgba(168,85,247,0.1); }
+.quiz-option.correct { background: rgba(34,197,94,0.2); border-color: #22c55e; color: #22c55e; }
+.quiz-option.wrong { background: rgba(239,68,68,0.2); border-color: #ef4444; color: #ef4444; }
+.quiz-option.disabled { cursor: not-allowed; opacity: 0.7; }
+.quiz-option.reveal-correct { background: rgba(34,197,94,0.15); border-color: #22c55e; }
+
+.explanation-box {
+  background: rgba(6,182,212,0.1); border: 1px solid rgba(6,182,212,0.3);
+  border-radius: 12px; padding: 14px; margin-top: 14px; font-size: 0.85rem;
+  line-height: 1.7; color: var(--text); display: none; animation: fadeIn 0.3s;
+}
+.explanation-box.show { display: block; }
+
+.quiz-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+.quiz-btn {
+  flex: 1; min-width: 120px; padding: 12px 20px; border-radius: 50px;
+  border: none; font-size: 0.9rem; font-weight: 800; cursor: pointer;
+  font-family: 'Nunito', sans-serif; transition: all 0.2s;
+}
+.quiz-btn.primary { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; }
+.quiz-btn.secondary { background: var(--card); border: 1px solid var(--border); color: var(--text); }
+.quiz-btn:hover { transform: translateY(-2px); }
+
+/* PROGRESS BAR */
+.progress-bar-wrap { background: var(--card); border-radius: 50px; height: 8px; margin: 16px 0; overflow: hidden; }
+.progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 50px; transition: width 0.5s ease; }
+
+/* SCORE SCREEN */
+.score-screen {
+  text-align: center; padding: 40px 20px;
+  animation: fadeIn 0.5s;
+}
+.score-circle {
+  width: 150px; height: 150px; border-radius: 50%;
+  border: 6px solid var(--accent);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  margin: 0 auto 24px;
+  background: linear-gradient(135deg, rgba(168,85,247,0.2), rgba(6,182,212,0.2));
+  font-size: 2.5rem; font-weight: 900;
+}
+.score-label { font-size: 0.75rem; font-weight: 700; color: var(--text2); }
+
+/* HISTORY */
+.history-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+  padding: 16px; margin-bottom: 10px;
+}
+.history-badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 0.72rem; font-weight: 800; margin-left: 8px; }
+
+/* DISCO LIGHTS */
+.disco-overlay {
+  position: fixed; inset: 0; z-index: 2000; pointer-events: none;
+  display: none; overflow: hidden;
+}
+.disco-overlay.show { display: block; }
+.disco-beam {
+  position: absolute; top: 0; width: 6px; border-radius: 0 0 4px 4px;
+  transform-origin: top center; animation: discoBeam 1s linear infinite;
+}
+@keyframes discoBeam {
+  0% { transform: rotate(-30deg); opacity: 0.8; }
+  50% { transform: rotate(30deg); opacity: 1; }
+  100% { transform: rotate(-30deg); opacity: 0.8; }
+}
+.disco-particle {
+  position: absolute; width: 8px; height: 8px; border-radius: 50%;
+  animation: discoFloat 2s ease-in-out infinite;
+}
+@keyframes discoFloat {
+  0%, 100% { transform: translateY(0) scale(1); opacity: 1; }
+  50% { transform: translateY(-40px) scale(1.3); opacity: 0.6; }
+}
+
+/* PREDICT SCREEN */
+.predict-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 3000;
+  display: none; align-items: center; justify-content: center;
+}
+.predict-overlay.show { display: flex; }
+.predict-card {
+  background: var(--bg2); border: 1px solid var(--border); border-radius: 24px;
+  padding: 32px; max-width: 400px; width: 90%; text-align: center;
+  animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+@keyframes popIn {
+  from { transform: scale(0.7); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+.predict-btn {
+  padding: 12px 24px; border-radius: 50px; border: none; font-size: 0.9rem;
+  font-weight: 800; cursor: pointer; font-family: 'Nunito', sans-serif;
+  margin: 6px; transition: all 0.2s;
+}
+.predict-btn.yes { background: linear-gradient(135deg, #22c55e, #06b6d4); color: #fff; }
+.predict-btn.ok { background: linear-gradient(135deg, #a855f7, #f59e0b); color: #fff; }
+
+/* LOADING SPINNER */
+.spinner {
+  width: 40px; height: 40px; border: 4px solid var(--border);
+  border-top: 4px solid var(--accent); border-radius: 50%;
+  animation: spin 0.8s linear infinite; margin: 20px auto;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ANIMATIONS */
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+  .float-panel { width: calc(100vw - 32px); right: 16px; }
+  .quiz-card { padding: 18px; }
+  .quiz-question { font-size: 0.9rem; }
+  .materi-header { padding: 12px; }
+}
+
+/* AUDIO CONTROLS */
+.audio-bar {
+  position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
+  background: rgba(15,12,41,0.9); border: 1px solid var(--border);
+  border-radius: 50px; padding: 8px 16px; z-index: 800;
+  display: flex; align-items: center; gap: 10px;
+  backdrop-filter: blur(12px);
+}
+.audio-bar button {
+  background: none; border: none; color: var(--text); cursor: pointer; font-size: 1.1rem;
+}
+.audio-bar input[type=range] { width: 80px; accent-color: var(--accent); }
+.audio-label { font-size: 0.75rem; color: var(--text2); font-weight: 700; }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="logo">🧪 IPA Kelas IX</div>
+  <div class="nav-btns">
+    <button class="nav-btn active" onclick="showPage('materi')">📚 Materi</button>
+    <button class="nav-btn" onclick="showPage('latihan')">✏️ Latihan Soal</button>
+    <button class="nav-btn" onclick="showPage('history')">📊 Riwayat</button>
+    <button class="nav-btn eyecare-btn" onclick="toggleEyecare()" id="eyeBtn">👁 Mode Mata Sehat</button>
+  </div>
+</nav>
+
+<!-- AUDIO BAR -->
+<div class="audio-bar" id="audioBar">
+  <span class="audio-label">🎵 Musik</span>
+  <button onclick="toggleMusic()" id="musicBtn">▶</button>
+  <input type="range" id="volSlider" min="0" max="1" step="0.1" value="0.5" onchange="setVol(this.value)">
+</div>
+
+<!-- HIDDEN AUDIO -->
+<audio id="bgMusic" loop>
+  <source src="musik9.mp3" type="audio/mpeg">
+</audio>
+
+<!-- ===== MATERI PAGE ===== -->
+<div class="page active" id="page-materi">
+  <div class="hero">
+    <h1>📖 Materi Ujian Akhir Sekolah IPA</h1>
+    <p>SMP/MTs Kelas VII–IX • Klik materi untuk lihat penjelasan lengkap</p>
+  </div>
+
+  <!-- FEATURE BAR -->
+  <div class="feature-bar">
+    <button class="feat-btn" onclick="toggleSearch()">🤖 Cari dengan AI</button>
+    <button class="feat-btn" onclick="toggleDraw()">✏️ Papan Rumus</button>
+    <button class="feat-btn" onclick="toggleBall()">⚽ Mainkan Bola</button>
+  </div>
+
+  <!-- AI SEARCH -->
+  <div class="search-bar" id="searchBar" style="display:none">
+    <div class="search-input-wrap">
+      <input class="search-input" id="searchInput" placeholder="Tanyakan tentang materi IPA... misal: apa itu homeostasis?"
+        onkeydown="if(event.key==='Enter')doSearch()">
+      <button class="search-btn" onclick="doSearch()">🔍 Cari</button>
+    </div>
+    <div class="ai-result" id="aiResult"></div>
+  </div>
+
+  <!-- MATERI LIST -->
+  <div class="materi-container" id="materiContainer"></div>
+</div>
+
+<!-- ===== LATIHAN SOAL PAGE ===== -->
+<div class="page" id="page-latihan">
+  <div class="quiz-container">
+    <div id="quizStart" style="text-align:center;padding:40px 0">
+      <div style="font-size:3rem;margin-bottom:16px">🎯</div>
+      <h2 style="font-weight:900;font-size:1.5rem;margin-bottom:8px">Latihan Soal IPA</h2>
+      <p style="color:var(--text2);margin-bottom:24px">50 soal pilihan ganda dari seluruh materi kelas IX</p>
+      <button class="quiz-btn primary" style="max-width:200px;margin:0 auto;display:block" onclick="startQuiz()">🚀 Mulai Latihan</button>
+    </div>
+    <div id="quizArea" style="display:none"></div>
+    <div id="scoreArea" style="display:none"></div>
+  </div>
+</div>
+
+<!-- ===== HISTORY PAGE ===== -->
+<div class="page" id="page-history">
+  <div style="max-width:700px;margin:0 auto;padding:24px 16px 100px">
+    <h2 style="font-weight:900;font-size:1.4rem;margin-bottom:6px">📊 Sejarah Pengerjaan</h2>
+    <p style="color:var(--text2);font-size:0.85rem;margin-bottom:20px">Rekam jejak semua sesi latihan soal kamu</p>
+    <div id="historyList"><p style="color:var(--text2)">Belum ada riwayat. Kerjakan latihan soal dulu!</p></div>
+  </div>
+</div>
+
+<!-- ===== DRAW PANEL ===== -->
+<div class="float-panel" id="drawPanel">
+  <div class="float-panel-header">
+    ✏️ Papan Rumus
+    <button class="close-panel" onclick="closePanel('draw')">✕</button>
+  </div>
+  <div style="padding:10px;flex:1;overflow:auto">
+    <div class="draw-tools">
+      <button class="draw-btn" onclick="setTool('pen')">🖊 Pen</button>
+      <button class="draw-btn" onclick="setTool('eraser')">⬜ Hapus</button>
+      <input type="color" id="colorPick" value="#a855f7" class="color-pick" onchange="setColor(this.value)">
+      <input type="range" id="sizeRange" min="1" max="20" value="3" style="width:70px;accent-color:var(--accent)">
+      <button class="draw-btn" onclick="clearCanvas()">🗑 Clear</button>
+    </div>
+    <canvas id="drawCanvas" width="300" height="250"></canvas>
+  </div>
+</div>
+
+<!-- BALL CANVAS -->
+<canvas id="ballCanvas"></canvas>
+<div id="ballControls" style="position:fixed;top:80px;right:20px;z-index:201;display:none">
+  <button style="padding:8px 14px;border-radius:20px;border:none;background:var(--accent);color:#fff;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif" onclick="addBall()">+ Tambah Bola</button>
+  <button style="padding:8px 14px;border-radius:20px;border:none;background:var(--card);border:1px solid var(--border);color:var(--text);font-weight:700;cursor:pointer;margin-left:6px;font-family:'Nunito',sans-serif" onclick="toggleBall()">✕ Tutup</button>
+</div>
+
+<!-- DISCO -->
+<div class="disco-overlay" id="disco"></div>
+
+<!-- PREDICT MODAL -->
+<div class="predict-overlay" id="predictOverlay">
+  <div class="predict-card">
+    <div id="predictContent"></div>
+  </div>
+</div>
+
+<script>
+// ================== DATA MATERI ==================
+const MATERI = [
+  {
+    no: 1, kelas: "VII",
+    title: "Pengukuran (Membaca Hasil Pengukuran)",
+    color: "#a855f7",
+    content: `<p>Pengukuran adalah kegiatan membandingkan suatu besaran yang diukur dengan besaran yang ditetapkan sebagai acuan (satuan). Hasil pengukuran terdiri dari nilai/angka dan satuan.</p>
+    <p><b>Cara membaca hasil pengukuran:</b> Perhatikan skala utama dan skala nonius (jika ada). Baca angka di depan titik nol skala nonius untuk skala utama, lalu tambahkan nilai nonius.</p>
+    <div class="formula">Hasil = Skala Utama + (Skala Nonius × Ketelitian)</div>
+    <p>Contoh: Jangka sorong skala utama 3,1 cm, skala nonius ke-4 berimpit → 3,1 + 0,04 = 3,14 cm</p>`
+  },
+  {
+    no: 2, kelas: "VII",
+    title: "Perubahan Zat",
+    color: "#06b6d4",
+    content: `<p><b>Perubahan Fisika:</b> Perubahan yang tidak menghasilkan zat baru. Zat dapat kembali ke bentuk semula (reversibel). Contoh: air membeku, kertas disobek, gula dilarutkan.</p>
+    <p><b>Perubahan Kimia:</b> Perubahan yang menghasilkan zat baru dengan sifat berbeda dari zat asalnya. Tidak dapat kembali ke bentuk semula (ireversibel). Contoh: kayu terbakar, besi berkarat, makanan membusuk.</p>
+    <p>Ciri perubahan kimia: timbul gas, terjadi perubahan warna/bau, terbentuk endapan, terjadi perubahan suhu.</p>`
+  },
+  {
+    no: 3, kelas: "VII",
+    title: "Perbedaan Zat Padat, Cair dan Gas",
+    color: "#f59e0b",
+    content: `<p><b>Zat Padat:</b> Volume dan bentuk tetap. Jarak antar partikel sangat rapat. Gaya tarik antar partikel sangat kuat. Gerakan partikel sangat terbatas (hanya bergetar di tempat).</p>
+    <p><b>Zat Cair:</b> Volume tetap, bentuk mengikuti wadah. Jarak antar partikel agak renggang. Gaya tarik antar partikel lebih lemah. Partikel dapat bergerak bebas dalam batas tertentu.</p>
+    <p><b>Gas:</b> Volume dan bentuk tidak tetap (mengisi seluruh ruang). Jarak antar partikel sangat renggang. Gaya tarik antar partikel sangat lemah. Partikel bergerak sangat cepat dan bebas ke segala arah.</p>`
+  },
+  {
+    no: 4, kelas: "VII",
+    title: "Gerak Benda (Jarak dan Perpindahan)",
+    color: "#22c55e",
+    content: `<p><b>Jarak (s):</b> Panjang lintasan yang ditempuh suatu benda tanpa memperhatikan arah. Jarak merupakan besaran skalar (hanya punya nilai, tidak punya arah).</p>
+    <p><b>Perpindahan:</b> Perubahan posisi suatu benda yang dihitung dari posisi awal ke posisi akhir dengan memperhatikan arah. Perpindahan merupakan besaran vektor (punya nilai dan arah).</p>
+    <div class="formula">Perpindahan = Posisi Akhir − Posisi Awal</div>
+    <p>Contoh: Seseorang berjalan 4 m ke Timur lalu 3 m ke Utara. Jarak = 7 m, Perpindahan = √(4²+3²) = 5 m ke arah timur-laut.</p>`
+  },
+  {
+    no: 5, kelas: "VII",
+    title: "Ekosistem (Komponen-Komponen Ekosistem)",
+    color: "#84cc16",
+    content: `<p>Ekosistem adalah sistem ekologi yang terbentuk dari hubungan timbal balik makhluk hidup dengan lingkungannya.</p>
+    <p><b>Komponen Biotik (makhluk hidup):</b></p>
+    <ul style="padding-left:18px;font-size:0.87rem;color:var(--text2)">
+      <li>Produsen: tumbuhan/autotrof yang mampu membuat makanan sendiri</li>
+      <li>Konsumen: hewan/heterotrof yang memakan organisme lain</li>
+      <li>Pengurai/Dekomposer: organisme yang menguraikan sisa organisme mati</li>
+    </ul>
+    <p><b>Komponen Abiotik (tak hidup):</b> air, tanah, udara, suhu, cahaya matahari, kelembaban.</p>`
+  },
+  {
+    no: 6, kelas: "VII",
+    title: "Ciri-Ciri Makhluk Hidup",
+    color: "#ec4899",
+    content: `<p>Makhluk hidup memiliki ciri-ciri yang membedakannya dari benda tak hidup:</p>
+    <ul style="padding-left:18px;font-size:0.87rem;color:var(--text2)">
+      <li><b>Bernapas:</b> mengambil oksigen dan mengeluarkan karbon dioksida</li>
+      <li><b>Bergerak:</b> dapat berpindah tempat atau menggerakkan bagian tubuhnya</li>
+      <li><b>Makan:</b> memerlukan nutrisi untuk energi dan pertumbuhan</li>
+      <li><b>Tumbuh dan berkembang:</b> ukuran tubuh bertambah dan kemampuan meningkat</li>
+      <li><b>Berkembang biak:</b> menghasilkan keturunan untuk melestarikan jenis</li>
+      <li><b>Peka terhadap rangsang (iritabilitas):</b> merespons perubahan lingkungan</li>
+      <li><b>Mengeluarkan zat sisa (ekskresi):</b> membuang sisa metabolisme</li>
+    </ul>`
+  },
+  {
+    no: 7, kelas: "VIII",
+    title: "Perbedaan Sel Hewan dan Sel Tumbuhan",
+    color: "#a855f7",
+    content: `<p>Sel adalah unit terkecil kehidupan. Ada perbedaan struktural antara sel hewan dan sel tumbuhan:</p>
+    <p><b>Hanya ada di Sel Tumbuhan:</b> Dinding sel (selulosa), plastida/kloroplas, vakuola besar, plasmodesmata.</p>
+    <p><b>Hanya ada di Sel Hewan:</b> Sentrosom/sentriol (untuk pembelahan sel), lisosom yang lebih banyak, bentuk tidak beraturan.</p>
+    <p><b>Ada di keduanya:</b> Membran sel, nukleus, mitokondria, ribosom, retikulum endoplasma, badan Golgi, sitoplasma.</p>`
+  },
+  {
+    no: 8, kelas: "VIII",
+    title: "Organel Sel dan Fungsinya",
+    color: "#06b6d4",
+    content: `<p>Organel sel adalah struktur kecil di dalam sel yang memiliki fungsi khusus:</p>
+    <ul style="padding-left:18px;font-size:0.87rem;color:var(--text2)">
+      <li><b>Nukleus:</b> pusat kendali sel, mengandung DNA/materi genetik</li>
+      <li><b>Mitokondria:</b> menghasilkan energi (ATP) melalui respirasi seluler</li>
+      <li><b>Ribosom:</b> tempat sintesis/pembentukan protein</li>
+      <li><b>RE Kasar:</b> tempat produksi protein untuk diekspor</li>
+      <li><b>RE Halus:</b> sintesis lipid dan detoksifikasi</li>
+      <li><b>Badan Golgi:</b> mengemas dan mendistribusikan protein</li>
+      <li><b>Kloroplas:</b> tempat fotosintesis (sel tumbuhan)</li>
+      <li><b>Vakuola:</b> tempat penyimpanan air dan zat sisa</li>
+      <li><b>Lisosom:</b> mencerna/mendegradasi bahan seluler</li>
+    </ul>`
+  },
+  {
+    no: 9, kelas: "VIII",
+    title: "Organ Pencernaan dan Fungsinya",
+    color: "#f59e0b",
+    content: `<p>Sistem pencernaan manusia terdiri dari organ-organ yang berfungsi memecah makanan:</p>
+    <ul style="padding-left:18px;font-size:0.87rem;color:var(--text2)">
+      <li><b>Mulut:</b> pencernaan mekanik (gigi) dan kimiawi (amilase saliva→pati jadi maltosa)</li>
+      <li><b>Kerongkongan/Esofagus:</b> meneruskan makanan ke lambung via gerakan peristaltik</li>
+      <li><b>Lambung:</b> pencernaan protein (pepsin), menghasilkan HCl, gerakan mekanik</li>
+      <li><b>Usus Halus:</b> pencernaan dan penyerapan nutrisi utama (duodenum, jejunum, ileum)</li>
+      <li><b>Usus Besar:</b> penyerapan air dan elektrolit, pembentukan feses</li>
+      <li><b>Rektum & Anus:</b> penampungan dan pengeluaran feses</li>
+      <li><b>Hati:</b> menghasilkan empedu untuk emulsifikasi lemak</li>
+      <li><b>Pankreas:</b> menghasilkan enzim pencernaan (amilase, lipase, protease)</li>
+    </ul>`
+  },
+  {
+    no: 10, kelas: "VIII",
+    title: "Menjaga Kesehatan Sistem Peredaran Darah",
+    color: "#22c55e",
+    content: `<p>Sistem peredaran darah membawa nutrisi, oksigen, dan hormon ke seluruh tubuh. Cara menjaga kesehatannya:</p>
+    <ul style="padding-left:18px;font-size:0.87rem;color:var(--text2)">
+      <li>Olahraga teratur untuk memperkuat jantung</li>
+      <li>Konsumsi makanan rendah kolesterol dan lemak jenuh</li>
+      <li>Hindari rokok karena nikotin menyempitkan pembuluh darah</li>
+      <li>Kelola stres karena stres meningkatkan tekanan darah</li>
+      <li>Kontrol tekanan darah normal: 120/80 mmHg</li>
+      <li>Perbanyak konsumsi buah, sayur, serat</li>
+    </ul>
+    <p>Penyakit sistem peredaran: hipertensi, arteriosklerosis, anemia, leukemia.</p>`
+  },
+  {
+    no: 11, kelas: "VIII",
+    title: "Pengaruh Rokok terhadap Sistem Pernapasan",
+    color: "#ef4444",
+    content: `<p>Rokok mengandung lebih dari 4.000 zat kimia berbahaya, termasuk:</p>
+    <ul style="padding-left:18px;font-size:0.87rem;color:var(--text2)">
+      <li><b>Nikotin:</b> zat adiktif yang menyebabkan kecanduan, merusak pembuluh darah</li>
+      <li><b>Tar:</b> menyebabkan kanker paru-paru, menyumbat paru-paru</li>
+      <li><b>CO (karbon monoksida):</b> mengikat hemoglobin sehingga O₂ tidak dapat terbawa</li>
+    </ul>
+    <p>Dampak pada sistem pernapasan: bronkitis kronis, emfisema, kanker paru-paru, asma, berkurangnya kapasitas paru-paru, kerusakan silia di saluran pernapasan.</p>
+    <p><b>Vape/rokok elektrik</b> juga berbahaya karena mengandung nikotin, logam berat, dan bahan kimia lainnya.</p>`
+  },
+  {
+    no: 12, kelas: "VIII",
+    title: "Menjaga Kesehatan Organ Ekskresi",
+    color: "#84cc16",
+    content: `<p>Organ ekskresi berfungsi membuang zat sisa metabolisme. Cara menjaga kesehatannya:</p>
+    <ul style="padding-left:18px;font-size:0.87rem;color:var(--text2)">
+      <li><b>Ginjal:</b> minum air 8 gelas/hari, kurangi garam, hindari obat-obatan berlebihan</li>
+      <li><b>Paru-paru:</b> hindari rokok dan udara tercemar, olahraga teratur</li>
+      <li><b>Hati:</b> hindari alkohol dan obat-obatan terlarang, konsumsi makanan sehat</li>
+      <li><b>Kulit:</b> jaga kebersihan, mandi teratur, lindungi dari sinar matahari berlebih</li>
+    </ul>
+    <p>Gangguan ekskresi: batu ginjal, nefritis, hepatitis, biang keringat, jerawat.</p>`
+  },
+  {
+    no: 13, kelas: "VIII",
+    title: "Keuntungan Mekanis Bidang Miring",
+    color: "#a855f7",
+    content: `<p>Bidang miring adalah pesawat sederhana berupa permukaan miring yang digunakan untuk memindahkan benda ke tempat yang lebih tinggi dengan gaya yang lebih kecil.</p>
+    <div class="formula">KM = Panjang Bidang Miring / Tinggi Bidang Miring = w / F</div>
+    <p>Dimana KM = Keuntungan Mekanis, w = berat beban, F = gaya kuasa</p>
+    <p>Semakin landai bidang miring (panjang lebih besar dari tinggi), semakin besar keuntungan mekanisnya (gaya yang dibutuhkan semakin kecil), tetapi jarak yang ditempuh semakin jauh.</p>
+    <p>Contoh penerapan: tangga, jalan di pegunungan, sekrup, baji/kapak.</p>`
+  },
+  {
+    no: 14, kelas: "VIII",
+    title: "Menentukan Frekuensi Getaran Bandul",
+    color: "#06b6d4",
+    content: `<p>Bandul adalah benda yang digantungkan pada tali dan dapat berayun. Satu getaran penuh = bandul kembali ke posisi awal.</p>
+    <div class="formula">Frekuensi (f) = n/t (Hz)</div>
+    <div class="formula">Periode (T) = t/n = 1/f (detik)</div>
+    <p>n = jumlah getaran, t = waktu (detik)</p>
+    <p>Hubungan periode bandul dengan panjang tali:</p>
+    <div class="formula">T = 2π √(L/g)</div>
+    <p>L = panjang tali, g = percepatan gravitasi (10 m/s²)</p>
+    <p>Makin panjang tali, makin besar periode (makin lambat), frekuensi makin kecil.</p>`
+  },
+  {
+    no: 15, kelas: "VIII",
+    title: "Mengidentifikasi Unsur, Senyawa, atau Campuran",
+    color: "#f59e0b",
+    content: `<p><b>Unsur:</b> zat tunggal yang tidak dapat diuraikan lagi menjadi zat yang lebih sederhana dengan reaksi kimia biasa. Contoh: Fe (besi), O (oksigen), Au (emas), Na (natrium).</p>
+    <p><b>Senyawa:</b> gabungan dua atau lebih unsur yang terikat secara kimia dalam perbandingan tertentu. Sifatnya berbeda dari unsur penyusunnya. Contoh: H₂O (air), NaCl (garam), CO₂ (karbon dioksida).</p>
+    <p><b>Campuran:</b> gabungan dua atau lebih zat yang tidak terikat secara kimia. Sifatnya sama dengan zat penyusunnya:</p>
+    <ul style="padding-left:18px;font-size:0.87rem;color:var(--text2)">
+      <li>Campuran homogen: tercampur rata (contoh: air gula, udara)</li>
+      <li>Campuran heterogen: tidak tercampur rata (contoh: pasir + air)</li>
+    </ul>`
+  },
+  {
+    no: 16, kelas: "VIII",
+    title: "Hubungan Gempa Bumi di Dasar Laut dan Tsunami",
+    color: "#22c55e",
+    content: `<p>Tsunami adalah gelombang laut raksasa yang terjadi akibat gangguan besar di dasar laut, biasanya gempa tektonik di bawah laut.</p>
+    <p><b>Proses terbentuknya tsunami:</b></p>
+    <ol style="padding-left:18px;font-size:0.87rem;color:var(--text2)">
+      <li>Gempa tektonik terjadi di dasar laut (lempeng bergerak naik/turun)</li>
+      <li>Air laut di atas titik gempa terdorong naik atau turun secara tiba-tiba</li>
+      <li>Terbentuk gelombang yang menjalar ke segala arah dengan kecepatan tinggi (800 km/jam di lautan dalam)</li>
+      <li>Saat mendekati pantai, kecepatan berkurang tapi ketinggian gelombang meningkat drastis</li>
+    </ol>
+    <p>Syarat terjadinya tsunami: gempa berkekuatan ≥ 6,5 SR, pusat di dasar laut, lempeng bergerak vertikal.</p>`
+  },
+  {
+    no: 17, kelas: "IX",
+    title: "Hukum Pascal",
+    color: "#a855f7",
+    content: `<p>Hukum Pascal (Blaise Pascal, 1623-1662): <b>"Tekanan yang diberikan pada zat cair dalam ruang tertutup akan diteruskan ke segala arah dengan besar yang sama."</b></p>
+    <div class="formula">F₁/A₁ = F₂/A₂</div>
+    <p>F₁ = gaya pada penampang kecil (N), A₁ = luas penampang kecil (m²), F₂ = gaya pada penampang besar (N), A₂ = luas penampang besar (m²)</p>
+    <p>Prinsip ini diterapkan pada: dongkrak hidrolik (mengangkat mobil), rem cakram, pompa hidrolik di bengkel. Jika A₂ > A₁, maka F₂ > F₁ → benda berat bisa diangkat dengan gaya kecil.</p>`
+  },
+  {
+    no: 18, kelas: "IX",
+    title: "Pertumbuhan dan Pengertiannya",
+    color: "#06b6d4",
+    content: `<p><b>Pertumbuhan:</b> proses penambahan ukuran (tinggi, berat, volume) yang dapat diukur secara kuantitatif. Pertumbuhan bersifat ireversibel (tidak dapat kembali). Contoh: tinggi badan bertambah dari 100 cm menjadi 150 cm.</p>
+    <p><b>Perkembangan:</b> proses peningkatan kemampuan/kematangan fungsi organ tubuh yang tidak dapat diukur dengan angka (kualitatif). Contoh: bayi yang belum bisa bicara menjadi bisa bicara lancar.</p>
+    <p>Perbedaan utama: pertumbuhan dapat diukur, perkembangan tidak dapat diukur dengan angka. Keduanya terjadi bersamaan sepanjang hidup organisme.</p>`
+  },
+  {
+    no: 19, kelas: "IX",
+    title: "Faktor yang Mempengaruhi Pertumbuhan dan Perkembangan Manusia",
+    color: "#f59e0b",
+    content: `<p><b>Faktor Internal:</b></p>
+    <ul style="padding-left:18px;font-size:0.87rem;color:var(--text2)">
+      <li>Genetik/hereditas: warisan sifat dari orang tua</li>
+      <li>Hormon: GH (hormon pertumbuhan dari hipofisis), estrogen, testosteron, insulin, tiroksin</li>
+    </ul>
+    <p><b>Faktor Eksternal:</b></p>
+    <ul style="padding-left:18px;font-size:0.87rem;color:var(--text2)">
+      <li>Nutrisi/gizi: protein, karbohidrat, lemak, vitamin, mineral</li>
+      <li>Lingkungan: suhu, cahaya, kelembaban</li>
+      <li>Kesehatan: penyakit dapat menghambat pertumbuhan</li>
+      <li>Aktivitas fisik: olahraga mendukung pertumbuhan tulang dan otot</li>
+    </ul>
+    <p>Tahapan hidup manusia: bayi → anak-anak → remaja (pubertas) → dewasa → lansia.</p>`
+  },
+  {
+    no: 20, kelas: "IX",
+    title: "Tahapan Metamorfosis",
+    color: "#22c55e",
+    content: `<p><b>Metamorfosis Sempurna (Holometabola):</b> perubahan bentuk yang sangat drastis. Fase: Telur → Larva → Pupa/Kepompong → Imago (dewasa). Contoh: kupu-kupu, lalat, nyamuk, lebah.</p>
+    <p><b>Metamorfosis Tidak Sempurna (Hemimetabola):</b> nimfa mirip dengan dewasa tapi belum punya sayap. Fase: Telur → Nimfa → Imago (dewasa). Tidak ada fase pupa. Contoh: belalang, kecoa, capung.</p>
+    <p><b>Metamorfosis Katak:</b> Telur → Berudu (kecebong) → Katak muda → Katak dewasa. Termasuk metamorfosis sempurna.</p>
+    <p>Pada metamorfosis sempurna, fase larva berfokus pada makan dan tumbuh, sedangkan fase pupa adalah transformasi struktur tubuh.</p>`
+  },
+  {
+    no: 21, kelas: "IX",
+    title: "Pengaruh Suhu Lingkungan terhadap Kura-Kura",
+    color: "#84cc16",
+    content: `<p>Kura-kura adalah hewan poikilotermik (berdarah dingin/ektoderm), artinya suhu tubuhnya mengikuti suhu lingkungan sekitar.</p>
+    <p><b>Pada suhu rendah:</b> metabolisme lambat, kura-kura menjadi tidak aktif (torpor/hibernasi). Energi sangat sedikit yang dihasilkan.</p>
+    <p><b>Pada suhu optimal:</b> kura-kura aktif bergerak, mencari makan, dan melakukan aktivitas normal.</p>
+    <p><b>Pada suhu sangat tinggi:</b> kura-kura bisa mengalami stres panas, mencari tempat teduh atau masuk ke air.</p>
+    <p>Ini berbeda dengan hewan homoiotermik (berdarah panas) seperti manusia yang mempertahankan suhu tubuh tetap konstan melalui homeostasis.</p>`
+  },
+  {
+    no: 22, kelas: "IX",
+    title: "Bagian Organ Reproduksi Wanita dan Fungsinya",
+    color: "#ec4899",
+    content: `<p>Organ reproduksi wanita terdiri dari:</p>
+    <ul style="padding-left:18px;font-size:0.87rem;color:var(--text2)">
+      <li><b>Ovarium:</b> menghasilkan sel telur (ovum) dan hormon estrogen & progesteron</li>
+      <li><b>Tuba Fallopi (Oviduk):</b> saluran tempat sel telur berjalan dari ovarium ke rahim; tempat terjadinya fertilisasi</li>
+      <li><b>Uterus (Rahim):</b> tempat berkembangnya janin selama kehamilan; dindingnya meluruh saat menstruasi</li>
+      <li><b>Serviks:</b> leher rahim, penghubung rahim dan vagina</li>
+      <li><b>Vagina:</b> saluran keluar bayi saat melahirkan; organ reproduksi eksternal</li>
+    </ul>
+    <p>Siklus menstruasi rata-rata 28 hari. Ovulasi terjadi sekitar hari ke-14.</p>`
+  },
+  {
+    no: 23, kelas: "IX",
+    title: "Homeostasis",
+    color: "#a855f7",
+    content: `<p>Homeostasis adalah proses yang dilakukan tubuh secara otomatis untuk mempertahankan kondisi stabil (keseimbangan) agar fungsi tubuh berjalan normal, meskipun ada perubahan internal dan eksternal.</p>
+    <p><b>Contoh homeostasis:</b></p>
+    <ul style="padding-left:18px;font-size:0.87rem;color:var(--text2)">
+      <li><b>Suhu tubuh:</b> diatur hipotalamus. Jika panas → berkeringat. Jika dingin → menggigil. Suhu normal manusia 37°C.</li>
+      <li><b>Kadar gula darah:</b> diatur pankreas. Glukosa tinggi → insulin dilepas. Glukosa rendah → glukagon dilepas.</li>
+      <li><b>Kadar air:</b> diatur ginjal. Banyak minum → ADH sedikit → banyak urine. Sedikit minum → ADH banyak → urine sedikit dan pekat.</li>
+    </ul>
+    <p>Hipotalamus adalah pusat pengatur homeostasis suhu tubuh.</p>`
+  },
+  {
+    no: 24, kelas: "IX",
+    title: "Pengaruh Kelebihan Hormon Tiroid",
+    color: "#06b6d4",
+    content: `<p>Kelenjar tiroid menghasilkan hormon tiroksin yang berperan dalam mengatur metabolisme tubuh.</p>
+    <p><b>Kelebihan hormon tiroid (Hipertiroidisme):</b></p>
+    <ul style="padding-left:18px;font-size:0.87rem;color:var(--text2)">
+      <li>Metabolisme terlalu cepat → berat badan turun drastis</li>
+      <li>Jantung berdetak cepat (palpitasi/takikardia)</li>
+      <li>Keringat berlebih, tidak tahan panas</li>
+      <li>Tremor (tangan gemetar)</li>
+      <li>Mudah gelisah, cemas, susah tidur</li>
+      <li>Mata membesar/menonjol (eksoftalmus)</li>
+      <li>Gondok (pembesaran kelenjar tiroid)</li>
+    </ul>
+    <p>Kekurangan tiroid → hipotiroidisme: metabolisme lambat, berat badan naik, lesu, kretinisme pada anak-anak.</p>`
+  },
+  {
+    no: 25, kelas: "IX",
+    title: "Bahaya Vape (Rokok Elektrik)",
+    color: "#ef4444",
+    content: `<p>Vape (rokok elektrik/e-cigarette) adalah alat yang memanaskan cairan (e-liquid) menjadi uap yang dihirup.</p>
+    <p><b>Kandungan berbahaya vape:</b></p>
+    <ul style="padding-left:18px;font-size:0.87rem;color:var(--text2)">
+      <li>Nikotin → menyebabkan kecanduan, merusak perkembangan otak remaja</li>
+      <li>Propilen glikol & gliserin → dapat merusak paru-paru</li>
+      <li>Logam berat (timah, nikel, timbal) dari koil pemanas</li>
+      <li>Bahan kimia rasa/aroma yang berbahaya jika dihirup</li>
+      <li>Diasetil → menyebabkan "popcorn lung" (bronkiolitis obliterans)</li>
+    </ul>
+    <p>Vape TIDAK lebih aman dari rokok biasa. Keduanya berbahaya dan tidak boleh dikonsumsi, terutama remaja.</p>`
+  },
+  {
+    no: 26, kelas: "IX",
+    title: "Menentukan Besar Tekanan pada Lantai",
+    color: "#22c55e",
+    content: `<p>Tekanan adalah gaya yang bekerja pada suatu luas permukaan. Semakin kecil luas bidang tekan, semakin besar tekanan yang dihasilkan.</p>
+    <div class="formula">P = F / A</div>
+    <p>P = tekanan (Pascal/N/m²), F = gaya (Newton), A = luas bidang tekan (m²)</p>
+    <p>Contoh: Seseorang bermassa 60 kg berdiri di atas kedua kaki. Luas alas kaki = 0,03 m². Berat = 60 × 10 = 600 N.</p>
+    <div class="formula">P = 600 / 0,03 = 20.000 Pa = 20 kPa</div>
+    <p>Kenapa hak sepatu runcing lebih merusak lantai? Karena luas A sangat kecil, tekanan P sangat besar.</p>`
+  },
+  {
+    no: 27, kelas: "IX",
+    title: "Membandingkan Besar Tekanan Beberapa Benda",
+    color: "#84cc16",
+    content: `<p>Untuk membandingkan tekanan beberapa benda, gunakan rumus P = F/A:</p>
+    <p>Tekanan bergantung pada dua faktor: gaya (F) dan luas bidang tekan (A).</p>
+    <ul style="padding-left:18px;font-size:0.87rem;color:var(--text2)">
+      <li>Gaya sama, luas berbeda → luas lebih kecil = tekanan lebih besar</li>
+      <li>Luas sama, gaya berbeda → gaya lebih besar = tekanan lebih besar</li>
+    </ul>
+    <p>Contoh perbandingan: Dua buku identik, satu berdiri, satu berbaring. Buku berdiri punya luas tekan lebih kecil → tekanan lebih besar.</p>
+    <p>Aplikasi: pisau tajam (luas kecil → tekanan besar), cakar/hak tinggi (luas kecil → tekanan besar), snowshoe (luas besar → tekanan kecil → tidak tenggelam di salju).</p>`
+  },
+  {
+    no: 28, kelas: "IX",
+    title: "Gejala Listrik Statis",
+    color: "#a855f7",
+    content: `<p>Listrik statis adalah peristiwa berpindahnya muatan listrik dari satu benda ke benda lain akibat gesekan, yang menyebabkan salah satu benda kelebihan atau kekurangan elektron.</p>
+    <p><b>Prinsip muatan listrik:</b></p>
+    <ul style="padding-left:18px;font-size:0.87rem;color:var(--text2)">
+      <li>Muatan sejenis tolak-menolak (+↔+ atau -↔-)</li>
+      <li>Muatan berbeda jenis tarik-menarik (+↔-)</li>
+    </ul>
+    <p><b>Contoh gejala listrik statis:</b> rambut berdiri saat menyisir, potongan kertas tertarik sisir plastik, kilat/petir, pintu mobil yang mengejutkan.</p>
+    <p>Alat untuk mendeteksi muatan: elektroskop (daun emas mekar jika ada muatan).</p>`
+  },
+  {
+    no: 29, kelas: "IX",
+    title: "Gaya Muatan Listrik (Gaya Coulomb)",
+    color: "#06b6d4",
+    content: `<p>Gaya Coulomb adalah gaya tarik-menarik atau tolak-menolak antara dua benda bermuatan listrik.</p>
+    <div class="formula">Fc = k × (q₁ × q₂) / r²</div>
+    <p>Fc = gaya Coulomb (Newton), k = konstanta = 9 × 10⁹ Nm²/C², q₁, q₂ = besar muatan (Coulomb), r = jarak antara dua muatan (meter)</p>
+    <p><b>Sifat-sifat:</b></p>
+    <ul style="padding-left:18px;font-size:0.87rem;color:var(--text2)">
+      <li>Semakin besar muatan → gaya makin besar</li>
+      <li>Semakin jauh jarak → gaya makin kecil (berbanding terbalik dengan kuadrat jarak)</li>
+    </ul>`
+  },
+  {
+    no: 30, kelas: "IX",
+    title: "Mengidentifikasi Besar Arus dalam Rangkaian Listrik",
+    color: "#f59e0b",
+    content: `<p>Arus listrik adalah aliran muatan listrik per satuan waktu.</p>
+    <div class="formula">I = Q / t (Ampere)</div>
+    <p>I = arus (A), Q = muatan (Coulomb), t = waktu (detik)</p>
+    <p><b>Rangkaian Seri:</b> arus di setiap titik SAMA (I₁ = I₂ = I₃). Tegangan berbeda-beda. Hambatan total: Rs = R₁ + R₂ + R₃</p>
+    <p><b>Rangkaian Paralel:</b> tegangan di setiap cabang SAMA (V₁ = V₂ = V₃). Arus berbeda-beda. Hambatan total: 1/Rp = 1/R₁ + 1/R₂ + 1/R₃</p>
+    <p>Hukum Ohm: V = I × R (tegangan = arus × hambatan)</p>`
+  },
+  {
+    no: 31, kelas: "IX",
+    title: "Karakteristik Magnet",
+    color: "#22c55e",
+    content: `<p>Magnet adalah benda yang dapat menarik benda-benda dari bahan tertentu (besi, baja, nikel, kobalt).</p>
+    <p><b>Karakteristik magnet:</b></p>
+    <ul style="padding-left:18px;font-size:0.87rem;color:var(--text2)">
+      <li>Selalu memiliki dua kutub: kutub utara (U) dan kutub selatan (S)</li>
+      <li>Kutub sejenis tolak-menolak, kutub berbeda jenis tarik-menarik</li>
+      <li>Medan magnet terkuat di kedua kutub</li>
+      <li>Magnet dapat dibuat dari besi/baja dengan cara: digosok, induksi, atau dialiri arus listrik (elektromagnet)</li>
+      <li>Sifat kemagnetan dapat hilang jika dipukul, dipanaskan, atau dialiri arus AC</li>
+    </ul>
+    <p>Gaya magnet berasal dari gerakan elektron dalam atom yang menghasilkan medan magnet kecil.</p>`
+  },
+  {
+    no: 32, kelas: "IX",
+    title: "Bioteknologi Konvensional",
+    color: "#84cc16",
+    content: `<p>Bioteknologi konvensional adalah pemanfaatan langsung mikroorganisme untuk menghasilkan produk yang bermanfaat, menerapkan prinsip fermentasi.</p>
+    <p><b>Fermentasi:</b> pemecahan senyawa kompleks menjadi sederhana oleh mikroorganisme dalam kondisi anaerob (tanpa oksigen).</p>
+    <p><b>Contoh produk bioteknologi konvensional:</b></p>
+    <ul style="padding-left:18px;font-size:0.87rem;color:var(--text2)">
+      <li>Tempe → jamur Rhizopus oligosporus</li>
+      <li>Tape → Saccharomyces cerevisiae (ragi)</li>
+      <li>Keju & yoghurt → bakteri Lactobacillus</li>
+      <li>Kecap/tauco → Aspergillus sojae</li>
+      <li>Roti → Saccharomyces cerevisiae</li>
+      <li>Antibiotik penisilin → jamur Penicillium notatum</li>
+    </ul>`
+  },
+  {
+    no: 33, kelas: "IX",
+    title: "Bioteknologi Modern",
+    color: "#ec4899",
+    content: `<p>Bioteknologi modern ditandai dengan adanya rekayasa genetika, membutuhkan peralatan canggih, dilakukan dalam kondisi steril.</p>
+    <p><b>Contoh bioteknologi modern:</b></p>
+    <ul style="padding-left:18px;font-size:0.87rem;color:var(--text2)">
+      <li><b>Kultur jaringan:</b> memperbanyak tanaman dari jaringan kecil dalam media steril</li>
+      <li><b>Bayi tabung (IVF):</b> fertilisasi sel telur dan sperma di laboratorium</li>
+      <li><b>Kloning:</b> menghasilkan individu identik dengan memindahkan inti sel</li>
+      <li><b>Teknologi hibridoma:</b> penggabungan sel kanker + sel limfosit B → antibodi monoklonal</li>
+      <li><b>DNA rekombinan:</b> menyisipkan gen asing ke plasmid bakteri → produk insulin, hormon pertumbuhan</li>
+    </ul>`
+  },
+  {
+    no: 34, kelas: "IX",
+    title: "Menentukan Gamet",
+    color: "#a855f7",
+    content: `<p>Gamet adalah sel kelamin yang terbentuk dari proses meiosis. Gamet membawa setengah dari jumlah kromosom induk.</p>
+    <p><b>Cara menentukan gamet:</b></p>
+    <p>Pisahkan setiap pasangan gen. Setiap gamet mengambil satu gen dari setiap pasangan.</p>
+    <div class="formula">Genotip: AaBb → Gamet: AB, Ab, aB, ab</div>
+    <div class="formula">Genotip: AABb → Gamet: AB, Ab (hanya 2 macam)</div>
+    <div class="formula">Genotip: AABB → Gamet: AB (hanya 1 macam)</div>
+    <p>Jumlah macam gamet = 2ⁿ, dimana n = jumlah pasangan gen heterozigot.</p>
+    <p>Contoh: AaBb → n=2 → 2² = 4 macam gamet</p>`
+  },
+  {
+    no: 35, kelas: "IX",
+    title: "Persilangan Monohibrid",
+    color: "#06b6d4",
+    content: `<p>Monohibrid adalah persilangan dengan satu sifat beda. Berdasarkan Hukum Mendel I (Hukum Segregasi): pasangan alel berpisah secara bebas saat pembentukan gamet.</p>
+    <p><b>Contoh:</b> Bunga ungu (UU) × bunga putih (uu)</p>
+    <div class="formula">P: UU × uu</div>
+    <div class="formula">F1: semua Uu (ungu)</div>
+    <div class="formula">F1 × F1: Uu × Uu</div>
+    <div class="formula">F2: UU : Uu : uu = 1 : 2 : 1</div>
+    <div class="formula">Fenotip F2: Ungu : Putih = 3 : 1 (75% : 25%)</div>
+    <p>Gen dominan (U) menutupi sifat gen resesif (u). Fenotip Uu = ungu (dominan). Fenotip uu = putih (resesif).</p>`
+  },
+  {
+    no: 36, kelas: "IX",
+    title: "Menentukan Gamet (Soal 2)",
+    color: "#f59e0b",
+    content: `<p>Pengulangan konsep menentukan gamet untuk soal lebih kompleks:</p>
+    <p><b>Langkah-langkah:</b></p>
+    <ol style="padding-left:18px;font-size:0.87rem;color:var(--text2)">
+      <li>Identifikasi genotip induk</li>
+      <li>Pisahkan setiap pasangan gen secara bebas</li>
+      <li>Kombinasikan satu gen dari setiap pasangan</li>
+    </ol>
+    <div class="formula">AaBBCc → Gamet: ABC, ABc, aBC, aBc (4 macam)</div>
+    <p>Karena BB hanya memberikan B, Aa memberikan A atau a, Cc memberikan C atau c.</p>
+    <p>Ingat: Jumlah macam gamet = 2ⁿ (n = jumlah pasangan heterozigot)</p>
+    <p>AaBBCc → n=2 (Aa dan Cc) → 2² = 4 gamet</p>`
+  },
+  {
+    no: 37, kelas: "IX",
+    title: "Reaksi Kimia",
+    color: "#22c55e",
+    content: `<p>Reaksi kimia adalah proses perubahan zat pereaksi (reaktan) menjadi produk yang baru dengan sifat berbeda.</p>
+    <p>Persamaan kimia umum: <code>Pereaksi → Produk</code></p>
+    <p><b>Jenis-jenis reaksi kimia:</b></p>
+    <ul style="padding-left:18px;font-size:0.87rem;color:var(--text2)">
+      <li><b>Kombinasi/Sintesis:</b> A + B → AB (2Na + Cl₂ → 2NaCl)</li>
+      <li><b>Dekomposisi/Penguraian:</b> AB → A + B (2H₂O → 2H₂ + O₂)</li>
+      <li><b>Pembakaran:</b> zat + O₂ → CO₂ + H₂O + energi</li>
+      <li><b>Penggantian tunggal:</b> A + BC → AC + B</li>
+      <li><b>Metatesis/Pertukaran ganda:</b> AB + CD → AD + CB</li>
+      <li><b>Netralisasi:</b> Asam + Basa → Garam + Air</li>
+    </ul>`
+  },
+  {
+    no: 38, kelas: "IX",
+    title: "Laju Reaksi",
+    color: "#84cc16",
+    content: `<p>Laju reaksi adalah perubahan jumlah pereaksi yang berkurang atau produk yang bertambah dalam satuan waktu tertentu.</p>
+    <p><b>Faktor-faktor yang mempengaruhi laju reaksi:</b></p>
+    <ul style="padding-left:18px;font-size:0.87rem;color:var(--text2)">
+      <li><b>Suhu:</b> suhu naik → partikel bergerak lebih cepat → tumbukan lebih sering → reaksi lebih cepat</li>
+      <li><b>Konsentrasi pereaksi:</b> makin banyak partikel → tumbukan lebih sering → reaksi lebih cepat</li>
+      <li><b>Luas permukaan:</b> serbuk > bongkahan → luas kontak lebih besar → reaksi lebih cepat</li>
+      <li><b>Katalis:</b> menurunkan energi aktivasi → reaksi lebih cepat tanpa dikonsumsi</li>
+    </ul>
+    <p>Energi aktivasi (Ea) = energi minimum yang dibutuhkan untuk memulai reaksi.</p>`
+  },
+  {
+    no: 39, kelas: "IX",
+    title: "Asam Basa",
+    color: "#ec4899",
+    content: `<p><b>Asam:</b> zat yang dalam larutan menghasilkan ion H⁺. pH 0-7. Rasa masam. Mengubah lakmus biru jadi merah. Bersifat korosif. Contoh: HCl, H₂SO₄, asam sitrat (lemon), cuka (CH₃COOH).</p>
+    <p><b>Basa:</b> zat yang dalam larutan menghasilkan ion OH⁻. pH 8-14. Rasa pahit, terasa licin. Mengubah lakmus merah jadi biru. Contoh: NaOH, Ca(OH)₂, Mg(OH)₂, sabun, deterjen.</p>
+    <p><b>Netral:</b> pH = 7, contoh air murni.</p>
+    <p><b>Reaksi Netralisasi:</b> Asam + Basa → Garam + Air</p>
+    <div class="formula">HCl + NaOH → NaCl + H₂O</div>
+    <p>Indikator: kertas lakmus, pH meter, indikator universal, indikator alami (kunyit, kol ungu).</p>`
+  },
+  {
+    no: 40, kelas: "IX",
+    title: "Materi Tambahan: Listrik & Magnet",
+    color: "#a855f7",
+    content: `<p>Ringkasan tambahan materi listrik dan magnet:</p>
+    <p><b>Induksi Elektromagnetik (Faraday):</b> perubahan medan magnet pada kumparan menghasilkan GGL (gaya gerak listrik).</p>
+    <div class="formula">ε = -N × (ΔΦ/Δt)</div>
+    <p>ε = GGL induksi (Volt), N = jumlah lilitan, ΔΦ = perubahan fluks magnetik</p>
+    <p><b>Generator:</b> mengubah energi gerak menjadi listrik menggunakan prinsip induksi elektromagnetik.</p>
+    <p><b>Tekanan Hidrostatis:</b> P = ρgh (ρ = massa jenis, g = gravitasi, h = kedalaman)</p>
+    <p><b>Hukum Archimedes:</b> Fa = ρcairan × Vbenda × g (gaya apung sama dengan berat zat cair yang dipindahkan)</p>`
+  }
+];
+
+// ================== QUIZ DATA (50 soal) ==================
+const SOAL = [
+  { q: "Pertumbuhan pada makhluk hidup berbeda dengan perkembangan. Pertumbuhan adalah...", opts: ["Perubahan yang tidak dapat diukur", "Proses penambahan ukuran yang dapat diukur secara kuantitatif", "Peningkatan kemampuan fungsi organ", "Perubahan tingkah laku"], ans: 1, expl: "Pertumbuhan adalah proses penambahan ukuran (tinggi, berat, volume) yang bersifat kuantitatif dan dapat diukur. Misalnya tinggi badan dari 100 cm menjadi 150 cm. Perkembangan adalah peningkatan kemampuan yang bersifat kualitatif." },
+  { q: "Pada siklus hidup manusia, proses fertilisasi menghasilkan...", opts: ["Fetus", "Morula", "Zigot", "Blastula"], ans: 2, expl: "Fertilisasi adalah penyatuan sel sperma dengan sel telur (ovum) yang menghasilkan zigot. Zigot kemudian membelah menjadi 2 sel, 4 sel, morula (8-16 sel), blastula (blastosis), gastrula, dan akhirnya embrio." },
+  { q: "Metamorfosis sempurna memiliki tahapan...", opts: ["Telur → Nimfa → Imago", "Telur → Larva → Imago", "Telur → Larva → Pupa → Imago", "Telur → Pupa → Nimfa → Imago"], ans: 2, expl: "Metamorfosis sempurna (holometabola) memiliki 4 fase: Telur → Larva → Pupa → Imago (dewasa). Fase pupa adalah masa transformasi besar-besaran bentuk tubuh. Contoh: kupu-kupu, nyamuk, lalat. Metamorfosis tidak sempurna: Telur → Nimfa → Imago (tanpa fase pupa)." },
+  { q: "Hukum Pascal menyatakan bahwa tekanan pada zat cair dalam ruang tertutup...", opts: ["Semakin besar di bagian bawah", "Diteruskan ke segala arah dengan besar yang sama", "Bergantung pada massa jenis zat cair", "Berkurang seiring kedalaman"], ans: 1, expl: "Hukum Pascal: 'Tekanan yang diberikan pada zat cair dalam ruang tertutup akan diteruskan ke segala arah dengan besar yang sama.' Penerapan: dongkrak hidrolik, rem cakram, pompa hidrolik. Rumus: F₁/A₁ = F₂/A₂" },
+  { q: "Organ reproduksi wanita tempat terjadinya pembuahan (fertilisasi) adalah...", opts: ["Ovarium", "Uterus/Rahim", "Tuba Fallopi", "Vagina"], ans: 2, expl: "Fertilisasi (pembuahan) terjadi di Tuba Fallopi (oviduk). Sel telur yang telah dilepaskan dari ovarium saat ovulasi bertemu dengan sperma di tuba fallopi. Jika terjadi pembuahan, zigot yang terbentuk akan bergerak menuju rahim (uterus) untuk implantasi." },
+  { q: "Homeostasis suhu tubuh manusia diatur oleh...", opts: ["Kelenjar adrenal", "Hipotalamus", "Kelenjar tiroid", "Pankreas"], ans: 1, expl: "Hipotalamus adalah bagian otak yang bertindak sebagai 'termostat' tubuh. Ketika suhu terlalu panas, hipotalamus memerintahkan kelenjar keringat untuk berkeringat. Ketika terlalu dingin, hipotalamus memerintahkan otot untuk menggigil. Suhu normal tubuh manusia adalah 37°C." },
+  { q: "Kelebihan hormon tiroksin dari kelenjar tiroid menyebabkan...", opts: ["Metabolisme tubuh melambat dan berat badan naik", "Metabolisme terlalu cepat, berat badan turun, jantung berdenyut cepat", "Produksi insulin berlebihan", "Kalsium darah meningkat"], ans: 1, expl: "Kelebihan tiroksin disebut hipertiroidisme. Dampaknya: metabolisme terlalu cepat (berat badan turun, mudah lapar), jantung berdenyut cepat (palpitasi), keringat berlebih, tremor, mata membesar (eksoftalmus), mudah gelisah. Kekurangan tiroksin = hipotiroidisme (metabolisme lambat, berat naik)." },
+  { q: "Listrik statis terjadi karena...", opts: ["Aliran elektron melalui kawat penghantar", "Perpindahan muatan listrik akibat gesekan dua benda", "Perbedaan tegangan antara dua kutub baterai", "Induksi elektromagnetik dari magnet"], ans: 1, expl: "Listrik statis terjadi karena perpindahan muatan listrik (elektron) dari satu benda ke benda lain akibat gesekan, sehingga salah satu benda kelebihan elektron (bermuatan negatif) dan benda lain kekurangan elektron (bermuatan positif). Contoh: rambut berdiri saat disisir, kilat/petir." },
+  { q: "Rumus Gaya Coulomb adalah...", opts: ["F = m × a", "F = k × (q₁ × q₂) / r²", "F = q × v × B", "F = P × A"], ans: 1, expl: "Gaya Coulomb: Fc = k × (q₁ × q₂) / r². k = 9×10⁹ Nm²/C² (konstanta Coulomb), q₁ dan q₂ = besar muatan listrik (Coulomb), r = jarak antara dua muatan (meter). Gaya berbanding terbalik dengan kuadrat jarak, dan berbanding lurus dengan perkalian muatan." },
+  { q: "Pada rangkaian listrik seri, yang bernilai sama di setiap titik rangkaian adalah...", opts: ["Tegangan", "Arus listrik", "Hambatan", "Daya"], ans: 1, expl: "Pada rangkaian seri: arus (I) di setiap titik SAMA (I₁ = I₂ = ... = In). Tegangan berbeda-beda sesuai hambatan. Hambatan total Rs = R₁ + R₂ + ... + Rn. Pada rangkaian paralel: tegangan (V) di setiap cabang SAMA, arus berbeda-beda." },
+  { q: "Bioteknologi konvensional menerapkan prinsip...", opts: ["Rekayasa genetika", "Fermentasi oleh mikroorganisme", "Kultur jaringan in vitro", "Transfer inti sel"], ans: 1, expl: "Bioteknologi konvensional menerapkan prinsip fermentasi, yaitu pemecahan senyawa kompleks menjadi sederhana oleh mikroorganisme dalam kondisi anaerob. Contoh: tempe (Rhizopus), yoghurt (Lactobacillus), tape (Saccharomyces), keju (Lactobacillus), antibiotik penisilin (Penicillium)." },
+  { q: "Persilangan monohibrid UU × uu menghasilkan F2 dengan rasio fenotip...", opts: ["1:1", "1:2:1", "3:1", "9:3:3:1"], ans: 2, expl: "F1 dari UU × uu = Uu (semua ungu). F1 × F1: Uu × Uu menghasilkan F2 genotip UU:Uu:uu = 1:2:1. Fenotip: UU (ungu) + Uu (ungu) : uu (putih) = 3:1. Jadi 75% ungu dan 25% putih. Ini adalah hukum segregasi Mendel I." },
+  { q: "Asam memiliki pH...", opts: ["7", "Lebih dari 7", "Kurang dari 7", "Sama dengan 14"], ans: 2, expl: "Skala pH: 0-7 = asam, 7 = netral, 7-14 = basa. Semakin rendah pH, semakin asam. Asam mengandung ion H⁺, mengubah lakmus biru menjadi merah, rasanya masam. Contoh: HCl (asam kuat), asam sitrat/lemon, cuka. pH air murni = 7 (netral)." },
+  { q: "Faktor yang TIDAK mempengaruhi laju reaksi kimia adalah...", opts: ["Suhu", "Konsentrasi pereaksi", "Warna pereaksi", "Luas permukaan"], ans: 2, expl: "Empat faktor yang mempengaruhi laju reaksi: (1) Suhu - suhu naik, partikel lebih cepat bergerak, (2) Konsentrasi - makin banyak partikel, tumbukan makin sering, (3) Luas permukaan - makin luas kontak, reaksi makin cepat, (4) Katalis - menurunkan energi aktivasi. Warna pereaksi tidak mempengaruhi laju reaksi." },
+  { q: "Gamet yang dihasilkan dari genotip AaBb adalah...", opts: ["AB, ab", "AB, Ab, aB, ab", "AB, AB, ab, ab", "A, a, B, b"], ans: 1, expl: "Genotip AaBb memiliki 2 pasangan heterozigot (Aa dan Bb). Jumlah macam gamet = 2² = 4. Dengan memisahkan pasangan gen secara bebas: AB, Ab, aB, ab. Prinsip ini sesuai dengan Hukum Mendel II (hukum asortasi/berpasangan bebas)." },
+  { q: "Hukum Archimedes menyatakan...", opts: ["Tekanan berbanding terbalik dengan luas permukaan", "Gaya apung sama dengan berat zat cair yang dipindahkan benda", "Tekanan gas berbanding lurus dengan suhu", "Arus listrik mengalir dari potensial tinggi ke rendah"], ans: 1, expl: "Hukum Archimedes: 'Jika benda dicelupkan ke dalam zat cair, benda mendapat gaya ke atas yang sama besar dengan berat zat cair yang didesak/dipindahkan.' Rumus: Fa = ρcairan × Vbenda × g. Aplikasi: kapal laut, kapal selam, palloncino balon udara." },
+  { q: "Pada rangkaian paralel, yang bernilai sama adalah...", opts: ["Arus listrik", "Hambatan", "Tegangan", "Muatan listrik"], ans: 2, expl: "Pada rangkaian paralel: tegangan (V) di setiap cabang SAMA (V₁ = V₂ = ... = Vn). Arus berbeda-beda. Hambatan total paralel: 1/Rp = 1/R₁ + 1/R₂ + 1/R₃. Hambatan total paralel selalu lebih kecil dari hambatan terkecil." },
+  { q: "Organ yang menghasilkan insulin adalah...", opts: ["Hati", "Kelenjar adrenal", "Pankreas", "Kelenjar tiroid"], ans: 2, expl: "Pankreas menghasilkan hormon insulin. Insulin berfungsi menurunkan kadar gula darah dengan cara: meningkatkan permeabilitas membran sel terhadap glukosa, mengubah glukosa menjadi glikogen di hati dan otot. Jika pankreas tidak menghasilkan insulin cukup → diabetes mellitus." },
+  { q: "Tekanan pada zat padat dirumuskan sebagai...", opts: ["P = ρgh", "P = F/A", "P = F₁/A₁ = F₂/A₂", "P = mv²/2"], ans: 1, expl: "Tekanan = Gaya/Luas Bidang (P = F/A). Satuan: Pascal (Pa) = N/m². Semakin kecil luas bidang tekan, semakin besar tekanan yang dihasilkan. Ini berbeda dengan tekanan hidrostatis (P = ρgh) yang berlaku untuk zat cair." },
+  { q: "Bioteknologi modern yang bertujuan untuk memperbanyak tanaman dari jaringan kecil disebut...", opts: ["Kloning", "DNA Rekombinan", "Kultur jaringan", "Hibridoma"], ans: 2, expl: "Kultur jaringan adalah teknik memperbanyak tumbuhan dari jaringan/organ tertentu (sel, jaringan, organ) dalam media bernutrisi dan steril. Memanfaatkan sifat totipotensi (setiap sel berpotensi tumbuh menjadi individu baru) dan sifat meristematik (aktif membelah) tumbuhan." },
+  { q: "Hukum Mendel I (Hukum Segregasi) menyatakan...", opts: ["Alel dapat berpasangan bebas dengan alel lainnya", "Pasangan alel berpisah secara bebas saat pembentukan gamet", "Keturunan selalu menyerupai induk dominan", "Gen selalu diturunkan dari ibu"], ans: 1, expl: "Hukum Mendel I (Hukum Segregasi): 'Pasangan alel berpisah secara bebas pada saat pembentukan gamet.' Saat meiosis, setiap gamet hanya mendapatkan satu alel dari setiap pasangan gen. Ini dapat dibuktikan pada persilangan monohibrid yang menghasilkan rasio F2 = 3:1 (fenotip)." },
+  { q: "Struktur sel yang HANYA ada pada sel tumbuhan adalah...", opts: ["Mitokondria", "Ribosom", "Dinding sel dan kloroplas", "Membran sel"], ans: 2, expl: "Sel tumbuhan memiliki struktur yang tidak ada pada sel hewan: (1) Dinding sel dari selulosa, (2) Kloroplas untuk fotosintesis, (3) Vakuola besar untuk menyimpan air dan zat sisa. Mitokondria, ribosom, dan membran sel ada di kedua jenis sel." },
+  { q: "Keuntungan mekanis bidang miring dapat dihitung dengan rumus...", opts: ["KM = Tinggi / Panjang", "KM = Panjang / Tinggi", "KM = Gaya × Jarak", "KM = Massa × Gravitasi"], ans: 1, expl: "Keuntungan Mekanis (KM) bidang miring = Panjang bidang miring / Tinggi bidang miring = Beban / Gaya kuasa. Semakin panjang bidang miring dibanding tingginya (makin landai), semakin besar keuntungan mekanis (gaya yang diperlukan makin kecil), tapi jarak tempuh lebih jauh." },
+  { q: "Proses penyerapan air oleh tumbuhan dari tanah terjadi melalui...", opts: ["Floem", "Daun stomata", "Rambut-rambut akar", "Batang kambium"], ans: 2, expl: "Air diserap dari tanah oleh rambut-rambut akar melalui proses osmosis. Dari rambut akar, air masuk ke sel epidermis, korteks, endodermis, perisikel, lalu ke xilem akar. Dari xilem akar, air naik ke xilem batang dan daun melalui daya kapilaritas (kohesi-adhesi) dan transpirasi." },
+  { q: "Apakah yang dimaksud dengan DNA rekombinan?", opts: ["DNA yang mengalami mutasi spontan", "Teknik menggabungkan dua jenis DNA dari organisme berbeda untuk menghasilkan produk tertentu", "Proses kloning sel hewan", "Pembuahan in vitro di laboratorium"], ans: 1, expl: "DNA rekombinan adalah teknik penggabungan DNA dari dua sumber berbeda. Caranya: gen target (misal gen insulin manusia) disisipkan ke plasmid bakteri. Plasmid rekombinan dimasukkan ke dalam bakteri. Bakteri memproduksi protein yang dikodekan gen tersebut (insulin, hormon pertumbuhan, dsb.)." },
+  { q: "Reaksi kimia yang menghasilkan energi panas disebut reaksi...", opts: ["Endotermik", "Eksotermik", "Netralisasi", "Fotosintesis"], ans: 1, expl: "Reaksi eksotermik melepaskan energi panas ke lingkungan, ditandai kenaikan suhu di sekitar reaksi. Contoh: pembakaran, respirasi sel, reaksi netralisasi, kompres panas. Reaksi endotermik menyerap energi panas dari lingkungan, ditandai penurunan suhu. Contoh: fotosintesis, kompres dingin (ammonium nitrat + air)." },
+  { q: "Pada ekosistem, organisme yang menguraikan sisa-sisa makhluk hidup mati disebut...", opts: ["Produsen", "Konsumen primer", "Pengurai/Dekomposer", "Parasit"], ans: 2, expl: "Dekomposer/pengurai adalah organisme yang menguraikan sisa-sisa organisme mati menjadi zat anorganik yang dapat digunakan kembali oleh produsen. Contoh: bakteri, jamur/fungi. Peran dekomposer penting dalam siklus materi di ekosistem." },
+  { q: "Karakteristik utama magnet adalah...", opts: ["Dapat menarik semua jenis logam", "Selalu memiliki dua kutub: utara dan selatan", "Kekuatannya tidak pernah hilang", "Hanya ada di alam, tidak bisa dibuat"], ans: 1, expl: "Magnet selalu memiliki dua kutub: kutub utara (U) dan kutub selatan (S). Kutub sejenis tolak-menolak, kutub berbeda tarik-menarik. Magnet hanya menarik bahan feromagnetik (besi, baja, nikel, kobalt). Sifat magnet bisa hilang jika dipukul, dipanaskan, atau dialiri arus AC." },
+  { q: "Organ pencernaan yang menghasilkan empedu untuk membantu pencernaan lemak adalah...", opts: ["Pankreas", "Usus halus", "Hati (hepar)", "Lambung"], ans: 2, expl: "Hati (hepar) menghasilkan cairan empedu yang disimpan di kantong empedu. Empedu berperan dalam emulsifikasi lemak (memecah lemak besar menjadi tetesan-tetesan kecil) di usus halus, sehingga enzim lipase bisa bekerja lebih efektif. Pankreas menghasilkan enzim amilase, lipase, dan protease." },
+  { q: "Tekanan hidrostatis zat cair dirumuskan sebagai...", opts: ["P = F/A", "P = ρgh", "P = F₁/A₁", "P = m×g"], ans: 1, expl: "Tekanan hidrostatis: P = ρgh. ρ = massa jenis zat cair (kg/m³), g = percepatan gravitasi (m/s²), h = kedalaman (m). Semakin dalam, tekanan makin besar. Ini menjelaskan mengapa telinga terasa sakit saat menyelam dalam. Satuan: Pascal (Pa)." },
+  { q: "Zat yang menyebabkan kecanduan disebut...", opts: ["Zat anestesi", "Zat adiktif", "Zat pengawet", "Zat antimikroba"], ans: 1, expl: "Zat adiktif adalah zat yang jika dikonsumsi menyebabkan ketagihan (adiksi). Contoh: nikotin (rokok), kafein (kopi), alkohol, narkotika. Seseorang yang kecanduan akan merasakan tidak nyaman, depresi, atau sakit jika tidak mengonsumsinya. Narkotika adalah zat adiktif berbahaya yang dilarang." },
+  { q: "Pada siklus menstruasi, ovulasi terjadi sekitar hari ke...", opts: ["1", "7", "14", "28"], ans: 2, expl: "Siklus menstruasi rata-rata 28 hari. Ovulasi (pelepasan sel telur dari ovarium) terjadi sekitar hari ke-14. Pada awal siklus (hari 1), lapisan rahim mulai terbentuk. Jika sel telur tidak dibuahi, lapisan rahim meluruh sekitar hari 28 = menstruasi." },
+  { q: "Perubahan yang menghasilkan zat baru dengan sifat berbeda disebut...", opts: ["Perubahan fisika", "Perubahan kimia", "Perubahan biologis", "Perubahan mekanis"], ans: 1, expl: "Perubahan kimia menghasilkan zat baru yang berbeda sifatnya dari zat asal dan bersifat ireversibel (tidak dapat kembali ke semula). Ciri-ciri: timbul gas, perubahan warna/bau, terbentuk endapan, perubahan suhu. Contoh: kertas terbakar, besi berkarat, makanan membusuk." },
+  { q: "Sel saraf yang berfungsi menghantarkan impuls dari organ sensor ke pusat saraf adalah...", opts: ["Neuron motoris", "Neuron sensoris", "Neuron konektor", "Neuron eferen"], ans: 1, expl: "Neuron sensoris (aferen) menghantarkan impuls dari reseptor (organ indera) ke pusat saraf (otak dan medula spinalis). Neuron motoris menghantarkan impuls dari pusat saraf ke efektor (otot/kelenjar). Neuron konektor menghubungkan neuron satu dengan yang lain di dalam pusat saraf." },
+  { q: "Hewan yang mengembangkan embrio di dalam telur yang berada di dalam tubuh induk disebut...", opts: ["Ovipar", "Vivipar", "Ovovivipar", "Ovopar"], ans: 2, expl: "Ovovivipar: embrio berkembang di dalam telur yang ada di dalam tubuh induk, menggunakan cadangan makanan dari telur. Saat telur menetas, individu baru dilahirkan. Contoh: hiu, ikan pari, kuda laut, iguana. Ovipar = bertelur di luar tubuh. Vivipar = melahirkan, embrio didukung plasenta." },
+  { q: "Kelenjar yang menghasilkan hormon adrenalin adalah...", opts: ["Kelenjar tiroid", "Kelenjar paratiroid", "Kelenjar adrenal/anak ginjal", "Kelenjar pankreas"], ans: 2, expl: "Kelenjar adrenal (anak ginjal) menghasilkan hormon adrenalin (epinefrin) yang berfungsi mempercepat denyut jantung, meningkatkan tekanan darah, memperlebar bronkus, dan mempersiapkan tubuh untuk respons 'fight or flight' (lawan atau lari) saat menghadapi bahaya." },
+  { q: "Proses fotosintesis menghasilkan...", opts: ["CO₂ dan H₂O", "Glukosa dan O₂", "ATP dan CO₂", "Protein dan lemak"], ans: 1, expl: "Fotosintesis: 6CO₂ + 6H₂O + energi cahaya → C₆H₁₂O₆ (glukosa) + 6O₂. Tumbuhan menyerap CO₂ dari udara dan H₂O dari tanah, menggunakan energi cahaya matahari yang diserap klorofil, untuk menghasilkan glukosa sebagai sumber energi dan O₂ yang dilepas ke udara." },
+  { q: "Indikator yang dapat membedakan asam dan basa adalah...", opts: ["Termometer", "Barometer", "Kertas lakmus", "Elektroskop"], ans: 2, expl: "Kertas lakmus adalah indikator asam-basa. Lakmus merah berubah menjadi biru dalam larutan basa. Lakmus biru berubah menjadi merah dalam larutan asam. Keduanya tidak berubah dalam larutan netral (pH=7). Indikator lain: pH meter (lebih akurat), indikator universal, indikator alami (kunyit, kol ungu)." },
+  { q: "Organ reproduksi wanita yang berfungsi sebagai tempat perkembangan janin adalah...", opts: ["Ovarium", "Tuba Fallopi", "Uterus/Rahim", "Vagina"], ans: 2, expl: "Uterus (rahim) adalah organ berongga berbentuk pir yang berfungsi sebagai tempat berkembangnya janin selama kehamilan (9 bulan). Dindingnya (endometrium) menebal setiap bulan untuk menerima zigot yang terfertilisasi. Jika tidak ada pembuahan, endometrium meluruh = menstruasi." },
+  { q: "Reaksi antara asam klorida dan natrium hidroksida menghasilkan...", opts: ["CO₂ + H₂O", "NaCl + H₂O", "H₂ + NaOH", "Na₂O + HCl"], ans: 1, expl: "Reaksi netralisasi: HCl (asam) + NaOH (basa) → NaCl (garam) + H₂O (air). Reaksi netralisasi selalu menghasilkan garam dan air. Garam dalam konteks kimia adalah produk reaksi asam dan basa (bukan hanya garam dapur). Reaksi ini melepaskan energi panas (eksotermik)." },
+  { q: "Apa yang dimaksud dengan frekuensi getaran?", opts: ["Waktu yang diperlukan untuk satu getaran", "Jumlah getaran yang terjadi dalam satu detik", "Amplitudo maksimum getaran", "Panjang gelombang getaran"], ans: 1, expl: "Frekuensi (f) adalah jumlah getaran yang terjadi dalam satu detik. Satuan: Hertz (Hz) = getaran/detik. Rumus: f = n/t. Sedangkan periode (T) adalah waktu untuk satu getaran lengkap: T = t/n = 1/f. Makin panjang tali bandul, makin besar periode (lebih lambat), frekuensi makin kecil." },
+  { q: "Campuran yang komponen-komponennya tidak dapat dibedakan dengan mata biasa disebut...", opts: ["Campuran heterogen", "Campuran homogen", "Senyawa", "Unsur"], ans: 1, expl: "Campuran homogen (larutan) adalah campuran yang seragam di seluruh bagiannya sehingga komponen-komponennya tidak bisa dibedakan dengan mata biasa. Contoh: air gula, air garam, udara, sirup. Campuran heterogen: komponen-komponen masih dapat dibedakan. Contoh: pasir + air, minyak + air." },
+  { q: "Struktur neuron yang berfungsi meneruskan impuls dari badan sel ke sel lain adalah...", opts: ["Dendrit", "Akson", "Sinapsis", "Nodus Ranvier"], ans: 1, expl: "Akson (neurit) berfungsi meneruskan impuls dari badan sel ke sel saraf lainnya atau ke efektor. Dendrit menerima impuls dari sel lain dan mengirimkannya ke badan sel. Sinapsis adalah ujung akson yang menghubungkan satu neuron dengan neuron lain. Nodus Ranvier adalah bagian akson tanpa selubung mielin sebagai tempat masuknya ion." },
+  { q: "Pembuahan pada katak terjadi di...", opts: ["Di dalam tubuh betina", "Di luar tubuh, di dalam air", "Di saluran tuba fallopi", "Di dalam telur amniotik"], ans: 1, expl: "Katak adalah hewan dengan fertilisasi eksternal. Pembuahan terjadi di luar tubuh betina, di dalam air. Betina melepaskan telur ke air, kemudian jantan melepaskan sperma di atasnya. Katak mengalami metamorfosis sempurna: Telur → Berudu (hidup di air dengan insang) → Katak muda → Katak dewasa (amfibi)." },
+  { q: "Prinsip kerja elektroskop adalah untuk...", opts: ["Mengukur tegangan listrik", "Mendeteksi ada atau tidaknya muatan listrik pada suatu benda", "Mengukur arus listrik", "Menentukan hambatan listrik"], ans: 1, expl: "Elektroskop digunakan untuk mendeteksi ada atau tidaknya muatan listrik pada suatu benda, dan menentukan jenis muatannya (positif atau negatif). Jika benda bermuatan didekatkan, daun emas (atau foil aluminium) akan membuka (mekar) karena mendapat muatan induksi yang sejenis sehingga saling tolak-menolak." },
+  { q: "Sel tumbuhan yang aktif membelah untuk pertumbuhan disebut...", opts: ["Sel meristem", "Sel xilem", "Sel floem", "Sel epidermis"], ans: 0, expl: "Sel meristem adalah sel yang aktif membelah untuk pertumbuhan tumbuhan. Meristem primer (apikal) → pertumbuhan memanjang (primer). Meristem sekunder (lateral/kambium) → pertumbuhan melebar (sekunder). Pertumbuhan sekunder membentuk kayu (ke dalam) dan kulit kayu (ke luar). Sel xilem dan floem adalah jaringan pengangkut." },
+  { q: "Reaksi kimia pembakaran gas metana (CH₄) menghasilkan...", opts: ["H₂ + CO", "CO₂ + H₂O", "CH₂ + O₃", "C + H₂O₂"], ans: 1, expl: "Reaksi pembakaran metana: CH₄ + 2O₂ → CO₂ + 2H₂O + energi. Semua reaksi pembakaran bahan bakar karbon menghasilkan CO₂ (karbon dioksida) dan H₂O (uap air). Gas metana dihasilkan dari pembusukan sampah organik dan kotoran hewan, digunakan sebagai bahan bakar biogas." },
+  { q: "Sistem yang berperan dalam mempertahankan kondisi stabil dalam tubuh adalah...", opts: ["Sistem saraf saja", "Homeostasis (sistem saraf + hormon)", "Sistem pencernaan", "Sistem ekskresi"], ans: 1, expl: "Homeostasis melibatkan kerja sama sistem saraf (hipotalamus) dan sistem endokrin (hormon) untuk mempertahankan kondisi internal yang stabil. Contoh: pengaturan suhu oleh hipotalamus, pengaturan gula darah oleh insulin/glukagon pankreas, pengaturan air oleh ADH dari hipofisis dan ginjal." },
+  { q: "Vape atau rokok elektrik berbahaya karena mengandung...", opts: ["Hanya uap air yang aman", "Nikotin, logam berat, dan bahan kimia berbahaya lainnya", "Oksigen murni yang berlebihan", "Hanya rasa/aroma yang tidak berbahaya"], ans: 1, expl: "Vape mengandung: nikotin (menyebabkan kecanduan), propilen glikol & gliserin (merusak paru-paru jika dihirup panas), logam berat dari koil pemanas (timah, nikel, timbal), bahan kimia rasa/aroma yang berbahaya, dan diasetil (penyebab 'popcorn lung'). Vape tidak lebih aman dari rokok biasa." },
+  { q: "Jika tekanan awal P₁ dan luas bidang A₁ = 10 cm², luas bidang A₂ = 100 cm², berapakah gaya F₂ jika F₁ = 50 N? (Hukum Pascal)", opts: ["5 N", "50 N", "500 N", "5000 N"], ans: 2, expl: "Hukum Pascal: F₁/A₁ = F₂/A₂. F₂ = F₁ × (A₂/A₁) = 50 × (100/10) = 50 × 10 = 500 N. Ini menunjukkan prinsip keuntungan mekanis: gaya 50 N pada penampang kecil (10 cm²) menghasilkan gaya 500 N pada penampang besar (100 cm²). Inilah yang membuat dongkrak hidrolik dapat mengangkat mobil berat." },
+  { q: "Reproduksi seksual melibatkan...", opts: ["Satu individu yang membelah diri", "Pertemuan dua sel kelamin (gamet jantan dan betina)", "Fragmentasi tubuh organisme", "Pembentukan spora tanpa pembuahan"], ans: 1, expl: "Reproduksi seksual melibatkan pertemuan dua sel kelamin: gamet jantan (sperma) dan gamet betina (sel telur/ovum). Proses penyatuannya disebut fertilisasi/pembuahan, menghasilkan zigot. Reproduksi aseksual tidak melibatkan pertemuan dua gamet, seperti pembelahan diri, fragmentasi, sporulasi, vegetatif." },
+];
+
+// ================== STATE ==================
+let currentPage = 'materi';
+let eyecare = false;
+let musicPlaying = false;
+let drawTool = 'pen', drawColor = '#a855f7', drawSize = 3;
+let isDrawing = false, lastX = 0, lastY = 0;
+let balls = [], animFrame = null, ballMode = false;
+let quizState = {
+  questions: [], currentQ: 0, answers: {}, startTime: null, endTime: null
+};
+let history = JSON.parse(localStorage.getItem('ipa_history') || '[]');
+
+// ================== NAVIGATION ==================
+function showPage(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  event && event.target.classList.add('active');
+  currentPage = page;
+  if (page === 'history') renderHistory();
+}
+
+// ================== EYE CARE ==================
+function toggleEyecare() {
+  eyecare = !eyecare;
+  document.body.classList.toggle('eyecare', eyecare);
+  document.getElementById('eyeBtn').textContent = eyecare ? '🌙 Mode Normal' : '👁 Mode Mata Sehat';
+}
+
+// ================== MUSIC ==================
+const bgMusic = document.getElementById('bgMusic');
+function toggleMusic() {
+  if (musicPlaying) {
+    bgMusic.pause();
+    document.getElementById('musicBtn').textContent = '▶';
+  } else {
+    bgMusic.play().catch(() => {});
+    document.getElementById('musicBtn').textContent = '⏸';
+  }
+  musicPlaying = !musicPlaying;
+}
+function setVol(v) { bgMusic.volume = v; }
+
+// ================== MATERI ==================
+function renderMateri() {
+  const colors = ['#a855f7','#06b6d4','#f59e0b','#22c55e','#ec4899','#84cc16','#ef4444'];
+  const container = document.getElementById('materiContainer');
+  container.innerHTML = '';
+  
+  MATERI.forEach((m, i) => {
+    const card = document.createElement('div');
+    card.className = 'materi-card';
+    card.innerHTML = `
+      <div class="materi-header" onclick="toggleMateri(${i})">
+        <div class="materi-num" style="background:${m.color}">${m.no}</div>
+        <div class="materi-title">${m.title}</div>
+        <div class="materi-class">Kelas ${m.kelas}</div>
+        <div class="materi-arrow">▾</div>
+      </div>
+      <div class="materi-content">${m.content}</div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+function toggleMateri(i) {
+  const cards = document.querySelectorAll('.materi-card');
+  cards[i].classList.toggle('open');
+}
+
+// ================== AI SEARCH ==================
+function toggleSearch() {
+  const bar = document.getElementById('searchBar');
+  bar.style.display = bar.style.display === 'none' ? 'block' : 'none';
+}
+
+async function doSearch() {
+  const query = document.getElementById('searchInput').value.trim();
+  if (!query) return;
+  const res = document.getElementById('aiResult');
+  res.className = 'ai-result show';
+  res.innerHTML = '<div class="spinner"></div>';
+  
+  // Build knowledge base from materi
+  const kb = MATERI.map(m => `${m.title}: ${m.content.replace(/<[^>]+>/g, ' ')}`).join('\n\n');
+  
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 800,
+        system: `Kamu adalah asisten belajar IPA untuk siswa SMP kelas IX. Jawab pertanyaan HANYA berdasarkan materi IPA berikut ini. Jika pertanyaan di luar materi, katakan bahwa pertanyaan tersebut tidak ada dalam materi. Jawab dalam Bahasa Indonesia yang jelas dan mudah dipahami. Materi IPA:\n\n${kb}`,
+        messages: [{ role: 'user', content: query }]
+      })
+    });
+    const data = await resp.json();
+    const text = data.content?.[0]?.text || 'Maaf, tidak dapat menemukan jawaban.';
+    res.innerHTML = `<b>🤖 Jawaban AI:</b><br>${text.replace(/\n/g, '<br>')}`;
+  } catch (e) {
+    res.innerHTML = '⚠️ Tidak dapat terhubung ke AI. Coba lagi nanti.';
+  }
+}
+
+// ================== DRAW ==================
+function toggleDraw() {
+  const p = document.getElementById('drawPanel');
+  p.classList.toggle('show');
+  if (p.classList.contains('show')) initCanvas();
+}
+
+function closePanel(name) {
+  document.getElementById(name + 'Panel').classList.remove('show');
+}
+
+function initCanvas() {
+  const canvas = document.getElementById('drawCanvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = canvas.offsetWidth || 290;
+  canvas.height = 250;
+  ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+  
+  const getPos = (e) => {
+    const r = canvas.getBoundingClientRect();
+    if (e.touches) return { x: e.touches[0].clientX - r.left, y: e.touches[0].clientY - r.top };
+    return { x: e.clientX - r.left, y: e.clientY - r.top };
+  };
+  
+  canvas.onmousedown = canvas.ontouchstart = (e) => {
+    e.preventDefault(); isDrawing = true;
+    const p = getPos(e); lastX = p.x; lastY = p.y;
+  };
+  canvas.onmousemove = canvas.ontouchmove = (e) => {
+    e.preventDefault();
+    if (!isDrawing) return;
+    const p = getPos(e);
+    ctx.beginPath();
+    ctx.moveTo(lastX, lastY);
+    ctx.lineTo(p.x, p.y);
+    if (drawTool === 'eraser') {
+      ctx.globalCompositeOperation = 'destination-out';
+      ctx.lineWidth = drawSize * 3;
+    } else {
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.strokeStyle = drawColor;
+      ctx.lineWidth = drawSize;
+    }
+    ctx.stroke();
+    lastX = p.x; lastY = p.y;
+  };
+  canvas.onmouseup = canvas.ontouchend = () => { isDrawing = false; };
+}
+
+function setTool(t) { drawTool = t; }
+function setColor(c) { drawColor = c; }
+function clearCanvas() {
+  const canvas = document.getElementById('drawCanvas');
+  canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+}
+
+// ================== BALL PHYSICS ==================
+function toggleBall() {
+  ballMode = !ballMode;
+  const canvas = document.getElementById('ballCanvas');
+  const ctrl = document.getElementById('ballControls');
+  canvas.classList.toggle('show', ballMode);
+  ctrl.style.display = ballMode ? 'flex' : 'none';
+  
+  if (ballMode) {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight - 70;
+    if (balls.length === 0) addBall();
+    animateBalls();
+    canvas.onclick = (e) => {
+      const r = canvas.getBoundingClientRect();
+      const x = e.clientX - r.left, y = e.clientY - r.top;
+      balls.forEach(b => {
+        const dx = b.x - x, dy = b.y - y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist < b.r + 40) {
+          b.vx += dx/dist * 8;
+          b.vy += dy/dist * 8;
+        }
+      });
+    };
+  } else {
+    cancelAnimationFrame(animFrame);
+    balls = [];
+  }
+}
+
+function addBall() {
+  const canvas = document.getElementById('ballCanvas');
+  const colors = ['#a855f7','#06b6d4','#f59e0b','#22c55e','#ec4899','#ef4444','#84cc16'];
+  balls.push({
+    x: Math.random() * (canvas.width - 80) + 40,
+    y: Math.random() * 200 + 100,
+    r: 24 + Math.random() * 16,
+    vx: (Math.random() - 0.5) * 4,
+    vy: -3,
+    color: colors[Math.floor(Math.random() * colors.length)],
+    emoji: ['⚽','🏀','🎾','🏐','🏈'][Math.floor(Math.random() * 5)]
+  });
+}
+
+function animateBalls() {
+  const canvas = document.getElementById('ballCanvas');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const gravity = 0.3, friction = 0.99;
+  
+  ctx.clearRect(0, 0, W, H);
+  balls.forEach(b => {
+    b.vy += gravity;
+    b.vx *= friction;
+    b.vy *= friction;
+    b.x += b.vx;
+    b.y += b.vy;
+    
+    if (b.x - b.r < 0) { b.x = b.r; b.vx = Math.abs(b.vx) * 0.8; }
+    if (b.x + b.r > W) { b.x = W - b.r; b.vx = -Math.abs(b.vx) * 0.8; }
+    if (b.y + b.r > H) { b.y = H - b.r; b.vy = -Math.abs(b.vy) * 0.75; }
+    if (b.y - b.r < 0) { b.y = b.r; b.vy = Math.abs(b.vy) * 0.8; }
+    
+    ctx.beginPath();
+    const grad = ctx.createRadialGradient(b.x - b.r*0.3, b.y - b.r*0.3, b.r*0.1, b.x, b.y, b.r);
+    grad.addColorStop(0, 'rgba(255,255,255,0.6)');
+    grad.addColorStop(1, b.color + 'cc');
+    ctx.fillStyle = grad;
+    ctx.arc(b.x, b.y, b.r, 0, Math.PI*2);
+    ctx.fill();
+    ctx.font = `${b.r}px serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(b.emoji, b.x, b.y);
+  });
+  
+  if (ballMode) animFrame = requestAnimationFrame(animateBalls);
+}
+
+// ================== QUIZ ==================
+function startQuiz() {
+  // Shuffle soal
+  quizState.questions = [...SOAL].sort(() => Math.random() - 0.5);
+  quizState.currentQ = 0;
+  quizState.answers = {};
+  quizState.startTime = Date.now();
+  
+  document.getElementById('quizStart').style.display = 'none';
+  document.getElementById('quizArea').style.display = 'block';
+  document.getElementById('scoreArea').style.display = 'none';
+  renderQuiz();
+}
+
+function renderQuiz() {
+  const area = document.getElementById('quizArea');
+  const q = quizState.questions;
+  const ci = quizState.currentQ;
+  const answered = quizState.answers;
+  const total = q.length;
+  const done = Object.keys(answered).length;
+  
+  let navDots = '';
+  for (let i = 0; i < total; i++) {
+    let cls = '';
+    if (answered[i] !== undefined) {
+      cls = answered[i] === q[i].ans ? 'answered-correct' : 'answered-wrong';
+    }
+    if (i === ci) cls += ' current';
+    navDots += `<div class="q-dot ${cls}" onclick="goToQ(${i})">${i+1}</div>`;
+  }
+  
+  const cq = q[ci];
+  const isAnswered = answered[ci] !== undefined;
+  
+  let opts = '';
+  cq.opts.forEach((opt, oi) => {
+    let cls = '';
+    if (isAnswered) {
+      if (oi === cq.ans) cls = 'correct reveal-correct';
+      else if (oi === answered[ci]) cls = 'wrong';
+      cls += ' disabled';
+    }
+    opts += `<button class="quiz-option ${cls}" onclick="answerQ(${oi})">${String.fromCharCode(65+oi)}. ${opt}</button>`;
+  });
+  
+  const progressPct = (done / total * 100).toFixed(0);
+  
+  area.innerHTML = `
+    <div class="quiz-nav">${navDots}</div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" style="width:${progressPct}%"></div>
+    </div>
+    <p style="text-align:center;font-size:0.8rem;color:var(--text2);margin-bottom:12px">${done}/${total} soal terjawab</p>
+    
+    <div class="quiz-card">
+      <div class="quiz-q-num">Soal ${ci+1} dari ${total}</div>
+      <div class="quiz-question">${cq.q}</div>
+      <div class="quiz-options">${opts}</div>
+      ${isAnswered ? `<div class="explanation-box show">💡 <b>Penjelasan:</b> ${cq.expl}</div>` : ''}
+    </div>
+    
+    <div class="quiz-actions">
+      <button class="quiz-btn secondary" onclick="goToQ(${Math.max(0, ci-1)})" ${ci===0?'style="opacity:0.5;cursor:not-allowed"':''}>← Prev</button>
+      ${ci < total-1 ? `<button class="quiz-btn primary" onclick="goToQ(${ci+1})">Soal ${ci+2} →</button>` : ''}
+      ${done === total ? `<button class="quiz-btn primary" style="background:linear-gradient(135deg,#22c55e,#06b6d4)" onclick="showScore()">🏆 Lihat Skor</button>` : ''}
+    </div>
+  `;
+}
+
+function answerQ(opt) {
+  const ci = quizState.currentQ;
+  if (quizState.answers[ci] !== undefined) return;
+  quizState.answers[ci] = opt;
+  renderQuiz();
+}
+
+function goToQ(i) {
+  const prev = quizState.currentQ;
+  quizState.currentQ = i;
+  // Only go back if it's already answered, can't change answer
+  renderQuiz();
+}
+
+function showScore() {
+  quizState.endTime = Date.now();
+  const q = quizState.questions;
+  let correct = 0;
+  q.forEach((qn, i) => {
+    if (quizState.answers[i] === qn.ans) correct++;
+  });
+  const total = q.length;
+  const pct = Math.round(correct / total * 100);
+  const timeMs = quizState.endTime - quizState.startTime;
+  const timeMin = Math.floor(timeMs / 60000);
+  const timeSec = Math.floor((timeMs % 60000) / 1000);
+  
+  // Save to history
+  const entry = {
+    date: new Date().toLocaleString('id-ID'),
+    correct, total, pct, timeMin, timeSec,
+    wrong: q.filter((qn, i) => quizState.answers[i] !== qn.ans).map((qn, i) => ({
+      q: qn.q, ans: qn.opts[qn.ans], yours: qn.opts[quizState.answers[q.indexOf(qn)]], expl: qn.expl
+    }))
+  };
+  history.unshift(entry);
+  if (history.length > 20) history = history.slice(0, 20);
+  localStorage.setItem('ipa_history', JSON.stringify(history));
+  
+  document.getElementById('quizArea').style.display = 'none';
+  document.getElementById('scoreArea').style.display = 'block';
+  renderScore(entry, timeMin, timeSec);
+  
+  if (pct === 100) showDisco();
+}
+
+function renderScore(entry, tMin, tSec) {
+  const { correct, total, pct, wrong } = entry;
+  const emoji = pct >= 90 ? '🏆' : pct >= 75 ? '🌟' : pct >= 60 ? '😊' : '📚';
+  const msg = pct >= 90 ? 'Luar Biasa!' : pct >= 75 ? 'Bagus Sekali!' : pct >= 60 ? 'Cukup Baik' : 'Terus Belajar!';
+  
+  document.getElementById('scoreArea').innerHTML = `
+    <div class="score-screen">
+      <div style="font-size:3rem;margin-bottom:12px">${emoji}</div>
+      <div class="score-circle">
+        <span>${pct}%</span>
+        <span class="score-label">${msg}</span>
+      </div>
+      <div style="display:flex;gap:16px;justify-content:center;margin-bottom:24px">
+        <div style="text-align:center"><div style="font-size:1.5rem;font-weight:900;color:var(--green)">${correct}</div><div style="font-size:0.75rem;color:var(--text2)">Benar</div></div>
+        <div style="text-align:center"><div style="font-size:1.5rem;font-weight:900;color:var(--red)">${total - correct}</div><div style="font-size:0.75rem;color:var(--text2)">Salah</div></div>
+        <div style="text-align:center"><div style="font-size:1.5rem;font-weight:900;color:var(--accent2)">${tMin}m ${tSec}s</div><div style="font-size:0.75rem;color:var(--text2)">Waktu</div></div>
+      </div>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:20px">
+        <button class="quiz-btn primary" onclick="showPredictModal(${pct}, ${tMin * 60 + tSec})">🎯 Prediksi Nilai Besok</button>
+        ${wrong.length > 0 ? `<button class="quiz-btn secondary" onclick="showWrongExpl()" id="wrongBtn">📝 Lihat Soal yang Salah</button>` : ''}
+        <button class="quiz-btn secondary" onclick="restartQuiz()">🔄 Ulangi Latihan</button>
+        <button class="quiz-btn secondary" onclick="showPage('history')">📊 Lihat Riwayat</button>
+      </div>
+      <div id="wrongExpl" style="display:none"></div>
+    </div>
+  `;
+  
+  // Store wrong for display
+  window._wrongItems = wrong;
+}
+
+function showWrongExpl() {
+  const d = document.getElementById('wrongExpl');
+  const btn = document.getElementById('wrongBtn');
+  if (d.style.display === 'none') {
+    d.style.display = 'block';
+    btn.textContent = '🔽 Sembunyikan';
+    d.innerHTML = window._wrongItems.map((w, i) => `
+      <div class="history-card" style="text-align:left;margin-bottom:12px">
+        <b style="font-size:0.88rem">❌ Soal ${i+1}:</b> ${w.q}<br>
+        <div style="margin-top:8px;font-size:0.82rem">
+          <span style="color:var(--red)">✗ Jawaban kamu: ${w.yours || 'Tidak dijawab'}</span><br>
+          <span style="color:var(--green)">✓ Jawaban benar: ${w.ans}</span>
+        </div>
+        <div style="margin-top:8px;font-size:0.82rem;color:var(--text2);background:rgba(6,182,212,0.1);padding:8px;border-radius:8px">
+          💡 ${w.expl}
+        </div>
+      </div>
+    `).join('');
+  } else {
+    d.style.display = 'none';
+    btn.textContent = '📝 Lihat Soal yang Salah';
+  }
+}
+
+function restartQuiz() {
+  document.getElementById('scoreArea').style.display = 'none';
+  document.getElementById('quizStart').style.display = 'block';
+}
+
+// ================== PREDICT ==================
+function showPredictModal(pct, timeSec) {
+  const overlay = document.getElementById('predictOverlay');
+  overlay.classList.add('show');
+  document.getElementById('predictContent').innerHTML = `
+    <div style="font-size:2.5rem;margin-bottom:12px">🎯</div>
+    <h3 style="font-weight:900;margin-bottom:8px">Prediksi Nilai Besok</h3>
+    <p style="color:var(--text2);font-size:0.85rem;margin-bottom:24px">Pilih 2 mata pelajaran yang mau diprediksi</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:16px">
+      ${['IPA','MTK','Bahasa Indonesia','Bahasa Inggris','IPS','PKN','Agama','Seni Budaya'].map(s => 
+        `<label style="cursor:pointer"><input type="checkbox" value="${s}" onchange="limitCheck(this)"> ${s}</label>`
+      ).join('')}
+    </div>
+    <button class="predict-btn yes" onclick="doPrediction(${pct}, ${timeSec})">🔮 Prediksi!</button>
+    <button class="predict-btn ok" onclick="closePredictModal()">✕ Tutup</button>
+  `;
+}
+
+function limitCheck(el) {
+  const all = document.querySelectorAll('#predictContent input[type=checkbox]:checked');
+  if (all.length > 2) el.checked = false;
+}
+
+function doPrediction(pct, timeSec) {
+  const subjects = [...document.querySelectorAll('#predictContent input[type=checkbox]:checked')].map(e => e.value);
+  if (subjects.length !== 2) { alert('Pilih tepat 2 mata pelajaran!'); return; }
+  
+  // Calculate prediction based on speed and score
+  // Faster = higher prediction, higher score = higher prediction
+  const speedBonus = Math.max(0, Math.floor((600 - timeSec) / 60));
+  let basePred = Math.max(60, Math.min(100, Math.round(pct * 0.8 + speedBonus * 2)));
+  // Add some randomness in the allowed range
+  const predValues = [64,65,66,67,68,69,70,75,80,85,90,95,100];
+  const closePreds = predValues.filter(v => Math.abs(v - basePred) <= 15);
+  const finalPred = closePreds[Math.floor(Math.random() * closePreds.length)] || basePred;
+  
+  document.getElementById('predictContent').innerHTML = `
+    <div style="font-size:2rem;margin-bottom:12px">📊</div>
+    <div class="spinner"></div>
+    <p style="color:var(--text2);font-size:0.85rem">Menganalisis kecepatan dan ketepatan jawabanmu...</p>
+  `;
+  
+  setTimeout(() => {
+    document.getElementById('predictContent').innerHTML = `
+      <div style="font-size:2.5rem;margin-bottom:12px">🎉</div>
+      <h3 style="font-weight:900;margin-bottom:16px">Prediksi Nilai Besok</h3>
+      ${subjects.map((s, i) => {
+        const v = i === 0 ? finalPred : Math.max(60, finalPred + Math.floor(Math.random()*10 - 5));
+        return `<div style="display:flex;justify-content:space-between;align-items:center;background:var(--card);padding:12px 16px;border-radius:12px;margin-bottom:8px">
+          <span style="font-weight:700">${s}</span>
+          <span style="font-size:1.3rem;font-weight:900;color:${v>=85?'var(--green)':v>=70?'var(--accent3)':'var(--accent)'}">${v}</span>
+        </div>`;
+      }).join('')}
+      <p style="color:var(--text2);font-size:0.82rem;margin:16px 0">Berdasarkan kecepatan & akurasi jawaban kamu</p>
+      <p style="font-weight:800;font-size:1rem;margin-bottom:16px">Kalau udah tau prediksinya...</p>
+      <p style="font-weight:700;margin-bottom:12px">Belikkan yanda mie padeh topping ayam? 🍜</p>
+      <button class="predict-btn yes" onclick="handleMie('iya')">✅ Iya, siap!</button>
+      <button class="predict-btn ok" onclick="handleMie('ok')">🔥 Oke gas!</button>
+    `;
+  }, 2000);
+}
+
+function handleMie(choice) {
+  document.getElementById('predictContent').innerHTML = `
+    <div style="font-size:3rem;margin-bottom:12px">🍜😋</div>
+    <h3 style="font-weight:900;margin-bottom:8px">Mantap Jiwa!</h3>
+    <p style="color:var(--text2);font-size:0.9rem;margin-bottom:20px">${choice === 'iya' ? 'Yanda pasti seneng banget! Semangat belajar ya!' : 'OKE GAS! Mie padeh disiapin! 🔥'}</p>
+    <button class="predict-btn yes" onclick="closePredictModal()">Balik ke Belajar 📚</button>
+  `;
+}
+
+function closePredictModal() {
+  document.getElementById('predictOverlay').classList.remove('show');
+}
+
+// ================== DISCO ==================
+function showDisco() {
+  const disco = document.getElementById('disco');
+  disco.classList.add('show');
+  disco.innerHTML = '';
+  
+  const colors = ['#a855f7','#06b6d4','#f59e0b','#22c55e','#ec4899','#ef4444','#84cc16','#3b82f6'];
+  
+  // Beams from top center
+  for (let i = 0; i < 8; i++) {
+    const beam = document.createElement('div');
+    beam.className = 'disco-beam';
+    beam.style.cssText = `left:${45 + i*1.5}%;height:${200 + i*30}px;background:linear-gradient(to bottom,${colors[i]},transparent);animation-delay:${i*0.15}s;animation-duration:${0.8 + i*0.1}s;opacity:0.7`;
+    disco.appendChild(beam);
+  }
+  
+  // Floating particles
+  for (let i = 0; i < 20; i++) {
+    const p = document.createElement('div');
+    p.className = 'disco-particle';
+    p.style.cssText = `left:${Math.random()*100}%;top:${Math.random()*100}%;background:${colors[Math.floor(Math.random()*colors.length)]};animation-delay:${Math.random()*2}s;width:${4+Math.random()*8}px;height:${4+Math.random()*8}px`;
+    disco.appendChild(p);
+  }
+  
+  // Stars
+  disco.innerHTML += '<div style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-size:3rem;z-index:2001;text-align:center;animation:pulse 0.5s infinite">🎉<br>NILAI 100!<br>🎊</div>';
+  
+  setTimeout(() => {
+    disco.classList.remove('show');
+    disco.innerHTML = '';
+  }, 5000);
+}
+
+// ================== HISTORY ==================
+function renderHistory() {
+  const list = document.getElementById('historyList');
+  if (history.length === 0) {
+    list.innerHTML = '<p style="color:var(--text2)">Belum ada riwayat. Kerjakan latihan soal dulu!</p>';
+    return;
+  }
+  list.innerHTML = history.map((h, i) => `
+    <div class="history-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <b style="font-size:0.9rem">Sesi ${history.length - i}</b>
+        <span style="font-size:0.75rem;color:var(--text2)">${h.date}</span>
+      </div>
+      <div style="display:flex;gap:12px;align-items:center">
+        <div style="font-size:1.8rem;font-weight:900;color:${h.pct>=85?'var(--green)':h.pct>=70?'var(--accent3)':'var(--accent)'}">${h.pct}%</div>
+        <div>
+          <div style="font-size:0.82rem"><span style="color:var(--green)">✓ ${h.correct} benar</span> | <span style="color:var(--red)">✗ ${h.total-h.correct} salah</span></div>
+          <div style="font-size:0.78rem;color:var(--text2)">⏱ ${h.timeMin}m ${h.timeSec}s | ${h.total} soal</div>
+        </div>
+        <span class="history-badge" style="background:${h.pct>=85?'rgba(34,197,94,0.2)':h.pct>=70?'rgba(245,158,11,0.2)':'rgba(239,68,68,0.2)'};color:${h.pct>=85?'var(--green)':h.pct>=70?'var(--accent3)':'var(--red)'}">
+          ${h.pct>=90?'🏆 Luar Biasa':h.pct>=75?'⭐ Bagus':h.pct>=60?'👍 Lumayan':'📚 Perlu Belajar'}
+        </span>
+      </div>
+      ${i === 0 ? '<div style="font-size:0.75rem;color:var(--accent2);margin-top:6px;font-weight:700">← Sesi terbaru</div>' : ''}
+    </div>
+  `).join('');
+}
+
+// ================== INIT ==================
+renderMateri();
+renderHistory();
+
+// Keyboard shortcut for search
+document.addEventListener('keydown', e => {
+  if (e.key === '/' && currentPage === 'materi') {
+    e.preventDefault();
+    document.getElementById('searchBar').style.display = 'block';
+    document.getElementById('searchInput').focus();
+  }
+});
+</script>
+</body>
+</html>
