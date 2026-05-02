@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IPA Kelas IX — Belajar Seru</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #6c3fc5;
+  --primary-light: #8b5cf6;
+  --secondary: #f59e0b;
+  --accent: #10b981;
+  --danger: #ef4444;
+  --bg: #0f0a1e;
+  --bg2: #1a1030;
+  --bg3: #251a42;
+  --card: #1e1438;
+  --card2: #2a1d50;
+  --text: #f0eaff;
+  --text2: #b8a9d9;
+  --text3: #7a6a9a;
+  --border: #3d2d6a;
+  --glow: rgba(108,63,197,0.4);
+  --green: #10b981;
+  --red: #ef4444;
+  --radius: 16px;
+  --shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ===== BACKGROUND STARS ===== */
+.stars {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background: radial-gradient(ellipse at 20% 50%, rgba(108,63,197,0.15) 0%, transparent 60%),
+              radial-gradient(ellipse at 80% 20%, rgba(245,158,11,0.08) 0%, transparent 50%),
+              radial-gradient(ellipse at 50% 80%, rgba(16,185,129,0.08) 0%, transparent 50%);
+}
+
+/* ===== NAVBAR ===== */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(15,10,30,0.9);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 20px;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 64px;
+}
+.nav-brand {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900; font-size: 1.3rem;
+  background: linear-gradient(135deg, var(--primary-light), var(--secondary));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  display: flex; align-items: center; gap: 8px;
+}
+.nav-tabs { display: flex; gap: 4px; }
+.nav-tab {
+  padding: 8px 20px; border-radius: 10px; cursor: pointer;
+  font-size: 0.85rem; font-weight: 600;
+  color: var(--text2); border: none; background: transparent;
+  transition: all 0.2s;
+}
+.nav-tab:hover { background: var(--bg3); color: var(--text); }
+.nav-tab.active {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  color: white;
+  box-shadow: 0 0 20px var(--glow);
+}
+.nav-music { display: flex; align-items: center; gap: 8px; }
+.music-btn {
+  width: 36px; height: 36px; border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--card); color: var(--text2); cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem; transition: all 0.2s;
+}
+.music-btn:hover, .music-btn.playing { 
+  background: var(--primary); color: white; border-color: var(--primary-light);
+  box-shadow: 0 0 15px var(--glow);
+}
+
+/* ===== PAGES ===== */
+.page { display: none; padding: 24px 20px; max-width: 1100px; margin: 0 auto; position: relative; z-index: 1; }
+.page.active { display: block; }
+
+/* ===== MATERI PAGE ===== */
+.materi-header {
+  text-align: center; margin-bottom: 40px;
+  animation: fadeInDown 0.6s ease;
+}
+.materi-header h1 {
+  font-family: 'Nunito', sans-serif;
+  font-size: clamp(1.8rem, 5vw, 3rem);
+  font-weight: 900;
+  background: linear-gradient(135deg, #a78bfa, #f59e0b, #10b981);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  line-height: 1.2; margin-bottom: 12px;
+}
+.materi-header p { color: var(--text2); font-size: 0.95rem; }
+
+/* Feature Toolbar */
+.feature-bar {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  margin-bottom: 28px; justify-content: center;
+}
+.feat-btn {
+  padding: 10px 18px; border-radius: 50px;
+  border: 1px solid var(--border);
+  background: var(--card); color: var(--text2);
+  cursor: pointer; font-size: 0.82rem; font-weight: 600;
+  display: flex; align-items: center; gap: 6px;
+  transition: all 0.2s;
+  font-family: 'Poppins', sans-serif;
+}
+.feat-btn:hover { border-color: var(--primary-light); color: var(--text); background: var(--card2); }
+.feat-btn.active { background: var(--primary); border-color: var(--primary-light); color: white; box-shadow: 0 0 15px var(--glow); }
+
+/* Search Bar */
+.search-bar {
+  display: none; margin-bottom: 20px;
+  animation: slideDown 0.3s ease;
+}
+.search-bar.open { display: block; }
+.search-input {
+  width: 100%; padding: 14px 20px;
+  background: var(--card2); border: 1px solid var(--border);
+  border-radius: 12px; color: var(--text); font-size: 0.95rem;
+  font-family: 'Poppins', sans-serif;
+  outline: none; transition: all 0.2s;
+}
+.search-input:focus { border-color: var(--primary-light); box-shadow: 0 0 0 3px var(--glow); }
+
+/* AI Search Panel */
+.ai-panel {
+  display: none; margin-bottom: 20px;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 20px;
+  animation: slideDown 0.3s ease;
+}
+.ai-panel.open { display: block; }
+.ai-panel-title { font-size: 0.85rem; color: var(--primary-light); font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+.ai-input-row { display: flex; gap: 10px; }
+.ai-input {
+  flex: 1; padding: 12px 16px;
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 10px; color: var(--text); font-size: 0.9rem;
+  font-family: 'Poppins', sans-serif; outline: none;
+}
+.ai-input:focus { border-color: var(--primary-light); }
+.ai-ask-btn {
+  padding: 12px 22px; border-radius: 10px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  border: none; color: white; cursor: pointer; font-weight: 600; font-size: 0.85rem;
+  transition: all 0.2s;
+}
+.ai-ask-btn:hover { transform: scale(1.03); box-shadow: 0 0 15px var(--glow); }
+.ai-response {
+  margin-top: 14px; padding: 14px; background: var(--bg3);
+  border-radius: 10px; font-size: 0.88rem; color: var(--text2);
+  line-height: 1.7; display: none;
+}
+.ai-response.show { display: block; animation: fadeIn 0.3s; }
+
+/* Draw Panel */
+.draw-panel {
+  display: none; margin-bottom: 20px;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 20px;
+  animation: slideDown 0.3s ease;
+}
+.draw-panel.open { display: block; }
+.draw-toolbar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; align-items: center; }
+.draw-tool-btn {
+  padding: 6px 14px; border-radius: 8px;
+  border: 1px solid var(--border); background: var(--bg3);
+  color: var(--text2); cursor: pointer; font-size: 0.8rem;
+  transition: all 0.2s; font-family: 'Poppins', sans-serif;
+}
+.draw-tool-btn:hover, .draw-tool-btn.active { background: var(--primary); color: white; border-color: var(--primary-light); }
+.color-picker-row { display: flex; gap: 6px; flex-wrap: wrap; }
+.color-dot {
+  width: 22px; height: 22px; border-radius: 50%; cursor: pointer;
+  border: 2px solid transparent; transition: all 0.15s;
+}
+.color-dot:hover, .color-dot.active { transform: scale(1.2); border-color: white; }
+#drawCanvas {
+  width: 100%; height: 260px; border-radius: 10px;
+  background: #1a1030; cursor: crosshair; display: block;
+  border: 1px solid var(--border);
+  touch-action: none;
+}
+
+/* Balls Panel */
+.balls-panel {
+  display: none; margin-bottom: 20px;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); overflow: hidden;
+  animation: slideDown 0.3s ease;
+}
+.balls-panel.open { display: block; }
+#ballsCanvas { width: 100%; height: 250px; display: block; }
+
+/* Materi Grid */
+.materi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+.materi-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s;
+  animation: fadeInUp 0.4s ease both;
+}
+.materi-card:hover {
+  border-color: var(--primary-light);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(108,63,197,0.3);
+}
+.card-header {
+  padding: 16px 20px;
+  display: flex; align-items: center; gap: 12px;
+  background: linear-gradient(135deg, var(--card2), var(--card));
+}
+.card-num {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.8rem; font-weight: 800; color: white; flex-shrink: 0;
+  font-family: 'Nunito', sans-serif;
+}
+.card-title { font-size: 0.9rem; font-weight: 600; color: var(--text); line-height: 1.3; }
+.card-icon { margin-left: auto; font-size: 1.1rem; transition: transform 0.3s; }
+.card-body {
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.5s ease, padding 0.3s;
+  padding: 0 20px;
+}
+.card-body.open { max-height: 600px; padding: 16px 20px; }
+.card-body p { font-size: 0.87rem; color: var(--text2); line-height: 1.8; }
+.card-body ul { margin-left: 16px; margin-top: 6px; }
+.card-body ul li { font-size: 0.85rem; color: var(--text2); line-height: 1.7; }
+.card-body strong { color: var(--primary-light); }
+.card-body .highlight {
+  background: rgba(108,63,197,0.15); border-left: 3px solid var(--primary-light);
+  padding: 10px 14px; border-radius: 0 8px 8px 0; margin: 10px 0;
+  font-size: 0.85rem; color: var(--text);
+}
+.card-badge {
+  display: inline-block; padding: 2px 10px; border-radius: 20px;
+  font-size: 0.72rem; font-weight: 600; margin-right: 6px; margin-top: 4px;
+}
+.badge-kimia { background: rgba(239,68,68,0.2); color: #fca5a5; }
+.badge-bio { background: rgba(16,185,129,0.2); color: #6ee7b7; }
+.badge-lingkungan { background: rgba(245,158,11,0.2); color: #fcd34d; }
+.materi-card.hidden { display: none; }
+
+/* Category Filter */
+.cat-filter { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+.cat-btn {
+  padding: 6px 16px; border-radius: 50px;
+  border: 1px solid var(--border); background: transparent;
+  color: var(--text2); cursor: pointer; font-size: 0.8rem; font-weight: 600;
+  transition: all 0.2s; font-family: 'Poppins', sans-serif;
+}
+.cat-btn:hover { background: var(--card); }
+.cat-btn.active {
+  background: var(--primary); border-color: var(--primary-light);
+  color: white;
+}
+
+/* Progress bar */
+.progress-bar-wrap {
+  background: var(--bg3); border-radius: 50px; height: 8px; margin-bottom: 28px;
+  overflow: hidden; border: 1px solid var(--border);
+}
+.progress-bar-fill {
+  height: 100%; border-radius: 50px;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  width: 0%; transition: width 0.5s;
+}
+
+/* ===== LATIHAN PAGE ===== */
+.quiz-container { max-width: 750px; margin: 0 auto; }
+.quiz-start {
+  text-align: center; padding: 60px 20px;
+  animation: fadeInUp 0.5s ease;
+}
+.quiz-start h2 {
+  font-family: 'Nunito', sans-serif;
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  font-weight: 900; margin-bottom: 12px;
+  background: linear-gradient(135deg, var(--primary-light), var(--secondary));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.quiz-start p { color: var(--text2); margin-bottom: 32px; font-size: 0.9rem; }
+.quiz-start-btn {
+  padding: 16px 48px; border-radius: 14px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  border: none; color: white; font-size: 1rem; font-weight: 700;
+  cursor: pointer; transition: all 0.3s;
+  font-family: 'Poppins', sans-serif;
+  box-shadow: 0 4px 20px var(--glow);
+}
+.quiz-start-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 30px var(--glow); }
+
+/* Quiz Nav */
+.quiz-nav-row {
+  display: flex; gap: 6px; flex-wrap: wrap;
+  margin-bottom: 24px; justify-content: center;
+}
+.q-nav-btn {
+  width: 36px; height: 36px; border-radius: 8px;
+  border: 1px solid var(--border); background: var(--card);
+  color: var(--text2); cursor: pointer; font-size: 0.8rem; font-weight: 600;
+  transition: all 0.15s; font-family: 'Poppins', sans-serif;
+  display: flex; align-items: center; justify-content: center;
+}
+.q-nav-btn:hover { border-color: var(--primary-light); color: var(--text); }
+.q-nav-btn.current { background: var(--primary); border-color: var(--primary-light); color: white; }
+.q-nav-btn.answered-correct { background: rgba(16,185,129,0.3); border-color: var(--green); color: var(--green); }
+.q-nav-btn.answered-wrong { background: rgba(239,68,68,0.3); border-color: var(--red); color: var(--red); }
+
+/* Question Card */
+.question-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 28px;
+  margin-bottom: 20px; animation: fadeInUp 0.3s ease;
+}
+.q-meta {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 16px;
+}
+.q-num {
+  font-size: 0.78rem; font-weight: 700; color: var(--primary-light);
+  background: rgba(108,63,197,0.15); padding: 4px 12px; border-radius: 20px;
+}
+.q-category {
+  font-size: 0.75rem; color: var(--text3);
+}
+.q-text { font-size: 0.95rem; line-height: 1.7; color: var(--text); margin-bottom: 20px; font-weight: 500; }
+.q-options { display: flex; flex-direction: column; gap: 10px; }
+.q-option {
+  padding: 13px 18px; border-radius: 12px;
+  border: 1.5px solid var(--border);
+  background: var(--bg3); cursor: pointer;
+  font-size: 0.88rem; color: var(--text2); transition: all 0.2s;
+  display: flex; align-items: center; gap: 12px;
+  font-family: 'Poppins', sans-serif; text-align: left;
+}
+.q-option:hover:not(.locked) { border-color: var(--primary-light); background: var(--card2); color: var(--text); }
+.q-option.correct { border-color: var(--green); background: rgba(16,185,129,0.15); color: #6ee7b7; }
+.q-option.wrong { border-color: var(--red); background: rgba(239,68,68,0.12); color: #fca5a5; }
+.q-option.locked { cursor: default; }
+.option-letter {
+  width: 26px; height: 26px; border-radius: 7px;
+  background: var(--border); display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem; font-weight: 700; flex-shrink: 0;
+  font-family: 'Nunito', sans-serif;
+}
+.q-option.correct .option-letter { background: var(--green); color: white; }
+.q-option.wrong .option-letter { background: var(--red); color: white; }
+
+/* Explanation */
+.q-explanation {
+  display: none; margin-top: 16px;
+  padding: 16px; border-radius: 10px;
+  background: rgba(108,63,197,0.1); border: 1px solid rgba(108,63,197,0.3);
+  font-size: 0.87rem; color: var(--text2); line-height: 1.7;
+}
+.q-explanation.show { display: block; animation: fadeIn 0.3s; }
+.q-explanation strong { color: var(--primary-light); }
+
+/* Score Screen */
+.score-screen {
+  text-align: center; padding: 40px 20px;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); animation: fadeInUp 0.5s ease;
+}
+.score-big {
+  font-family: 'Nunito', sans-serif;
+  font-size: 5rem; font-weight: 900;
+  background: linear-gradient(135deg, var(--primary-light), var(--secondary));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  line-height: 1;
+}
+.score-label { color: var(--text2); margin: 8px 0 24px; font-size: 0.9rem; }
+.score-stats { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-bottom: 28px; }
+.score-stat {
+  padding: 16px 24px; border-radius: 12px; min-width: 110px;
+  background: var(--bg3); border: 1px solid var(--border); text-align: center;
+}
+.score-stat-val { font-size: 1.8rem; font-weight: 800; font-family: 'Nunito', sans-serif; }
+.score-stat-val.green { color: var(--green); }
+.score-stat-val.red { color: var(--red); }
+.score-stat-label { font-size: 0.75rem; color: var(--text3); margin-top: 2px; }
+.score-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.score-btn {
+  padding: 12px 28px; border-radius: 10px; cursor: pointer;
+  font-size: 0.88rem; font-weight: 600; transition: all 0.2s;
+  font-family: 'Poppins', sans-serif;
+}
+.btn-primary { background: linear-gradient(135deg, var(--primary), var(--primary-light)); border: none; color: white; }
+.btn-primary:hover { transform: scale(1.03); box-shadow: 0 0 15px var(--glow); }
+.btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text2); }
+.btn-outline:hover { border-color: var(--primary-light); color: var(--text); }
+
+/* Wrong Review */
+.wrong-review { margin-top: 28px; text-align: left; }
+.wrong-review-title { font-size: 0.9rem; font-weight: 700; color: var(--text2); margin-bottom: 16px; }
+.wrong-item {
+  background: var(--bg3); border: 1px solid rgba(239,68,68,0.3);
+  border-radius: 12px; padding: 16px; margin-bottom: 12px;
+}
+.wrong-q { font-size: 0.88rem; color: var(--text); margin-bottom: 8px; font-weight: 500; }
+.wrong-detail { font-size: 0.82rem; color: var(--text2); line-height: 1.7; }
+.wrong-detail .correct-ans { color: var(--green); font-weight: 600; }
+
+/* ===== MODALS ===== */
+.modal-overlay {
+  display: none; position: fixed; inset: 0; z-index: 200;
+  background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);
+  align-items: center; justify-content: center; padding: 20px;
+}
+.modal-overlay.open { display: flex; animation: fadeIn 0.2s; }
+.modal {
+  background: var(--card2); border: 1px solid var(--border);
+  border-radius: 20px; padding: 28px; max-width: 520px; width: 100%;
+  animation: scaleIn 0.3s ease;
+}
+.modal h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 12px; color: var(--text); }
+.modal p { font-size: 0.88rem; color: var(--text2); line-height: 1.7; }
+.modal-close {
+  float: right; background: var(--bg3); border: 1px solid var(--border);
+  width: 30px; height: 30px; border-radius: 8px; cursor: pointer;
+  color: var(--text2); font-size: 0.9rem; display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+}
+.modal-close:hover { background: var(--danger); color: white; border-color: var(--danger); }
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes scaleIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.6; } }
+
+.spin { display: inline-block; animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Stagger animations */
+.materi-card:nth-child(1) { animation-delay: 0.05s; }
+.materi-card:nth-child(2) { animation-delay: 0.1s; }
+.materi-card:nth-child(3) { animation-delay: 0.15s; }
+.materi-card:nth-child(4) { animation-delay: 0.2s; }
+.materi-card:nth-child(5) { animation-delay: 0.25s; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 600px) {
+  nav { padding: 0 12px; }
+  .nav-brand { font-size: 1rem; }
+  .nav-tab { padding: 6px 12px; font-size: 0.78rem; }
+  .page { padding: 16px 12px; }
+  .materi-grid { grid-template-columns: 1fr; }
+  .q-nav-btn { width: 30px; height: 30px; font-size: 0.72rem; }
+  .question-card { padding: 18px; }
+}
+
+/* Floating emoji confetti */
+.confetti-wrap { position: fixed; inset: 0; pointer-events: none; z-index: 500; }
+.confetti-piece {
+  position: absolute; font-size: 1.5rem;
+  animation: confettiFall 2.5s ease-in forwards;
+}
+@keyframes confettiFall {
+  0% { transform: translateY(-50px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+</style>
+</head>
+<body>
+<div class="stars"></div>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="nav-brand">🔬 IPA Kelas IX</div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="switchPage('materi')">📚 Materi</button>
+    <button class="nav-tab" onclick="switchPage('latihan')">✏️ Latihan</button>
+  </div>
+  <div class="nav-music">
+    <button class="music-btn" id="musicBtn" onclick="toggleMusic()" title="Musik Latar">🎵</button>
+  </div>
+</nav>
+
+<!-- ===== MATERI PAGE ===== -->
+<div class="page active" id="page-materi">
+  <div class="materi-header">
+    <h1>📖 Materi IPA Semester Genap</h1>
+    <p>Kelas IX — Tap kartu materi untuk membaca penjelasan lengkap</p>
+  </div>
+
+  <!-- Feature Bar -->
+  <div class="feature-bar">
+    <button class="feat-btn" id="btn-search" onclick="toggleFeature('search')">🔍 Cari Materi</button>
+    <button class="feat-btn" id="btn-ai" onclick="toggleFeature('ai')">🤖 Tanya AI</button>
+    <button class="feat-btn" id="btn-draw" onclick="toggleFeature('draw')">✏️ Papan Gambar</button>
+    <button class="feat-btn" id="btn-balls" onclick="toggleFeature('balls')">⚽ Main Bola</button>
+  </div>
+
+  <!-- Search -->
+  <div class="search-bar" id="feature-search">
+    <input class="search-input" type="text" placeholder="🔍 Cari materi, misalnya: fotosintesis, genetika, reaksi kimia..." oninput="filterMateri(this.value)">
+  </div>
+
+  <!-- AI Panel -->
+  <div class="ai-panel" id="feature-ai">
+    <div class="ai-panel-title">🤖 Tanya AI — Verifikasi Jawaban & Penjelasan Tambahan</div>
+    <div class="ai-input-row">
+      <input class="ai-input" id="aiQuestion" type="text" placeholder="Contoh: Jelaskan apa itu persilangan monohibrid...">
+      <button class="ai-ask-btn" onclick="askAI()">Tanya</button>
+    </div>
+    <div class="ai-response" id="aiResponse"></div>
+  </div>
+
+  <!-- Draw Panel -->
+  <div class="draw-panel" id="feature-draw">
+    <div style="font-size:0.85rem; color:var(--primary-light); font-weight:700; margin-bottom:10px;">✏️ Papan Gambar — Tulis Rumus & Diagram</div>
+    <div class="draw-toolbar">
+      <button class="draw-tool-btn active" id="tool-pen" onclick="setTool('pen')">🖊 Pena</button>
+      <button class="draw-tool-btn" id="tool-eraser" onclick="setTool('eraser')">🧹 Hapus</button>
+      <button class="draw-tool-btn" onclick="clearCanvas()">🗑 Bersihkan</button>
+      <div class="color-picker-row" id="colorPicker">
+        <div class="color-dot active" style="background:#a78bfa" data-color="#a78bfa" onclick="setColor(this)"></div>
+        <div class="color-dot" style="background:#ffffff" data-color="#ffffff" onclick="setColor(this)"></div>
+        <div class="color-dot" style="background:#10b981" data-color="#10b981" onclick="setColor(this)"></div>
+        <div class="color-dot" style="background:#f59e0b" data-color="#f59e0b" onclick="setColor(this)"></div>
+        <div class="color-dot" style="background:#ef4444" data-color="#ef4444" onclick="setColor(this)"></div>
+        <div class="color-dot" style="background:#60a5fa" data-color="#60a5fa" onclick="setColor(this)"></div>
+      </div>
+      <input type="range" min="1" max="20" value="4" oninput="setBrush(this.value)" style="width:80px">
+    </div>
+    <canvas id="drawCanvas"></canvas>
+  </div>
+
+  <!-- Balls Panel -->
+  <div class="balls-panel" id="feature-balls">
+    <canvas id="ballsCanvas"></canvas>
+  </div>
+
+  <!-- Category Filter -->
+  <div class="cat-filter">
+    <button class="cat-btn active" onclick="filterCat('all', this)">Semua</button>
+    <button class="cat-btn" onclick="filterCat('kimia', this)">⚗️ Kimia</button>
+    <button class="cat-btn" onclick="filterCat('bio', this)">🧬 Biologi</button>
+    <button class="cat-btn" onclick="filterCat('lingkungan', this)">🌍 Lingkungan</button>
+  </div>
+
+  <!-- Read Progress -->
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+    <span style="font-size:0.78rem;color:var(--text3);">Progress Baca</span>
+    <div class="progress-bar-wrap" style="flex:1">
+      <div class="progress-bar-fill" id="readProgress"></div>
+    </div>
+    <span style="font-size:0.78rem;color:var(--text3)" id="readCount">0/27</span>
+  </div>
+
+  <!-- Materi Grid -->
+  <div class="materi-grid" id="materiGrid"></div>
+</div>
+
+<!-- ===== LATIHAN PAGE ===== -->
+<div class="page" id="page-latihan">
+  <div class="quiz-container" id="quizContainer">
+    <div class="quiz-start" id="quizStart">
+      <div style="font-size:4rem;margin-bottom:16px;">🎯</div>
+      <h2>Latihan Soal IPA</h2>
+      <p>50 soal pilihan ganda sesuai kisi-kisi semester genap<br>Kerjakan dengan jujur dan teliti!</p>
+      <div style="display:flex;gap:20px;justify-content:center;margin-bottom:28px;flex-wrap:wrap;">
+        <div style="text-align:center;padding:16px 24px;background:var(--card);border-radius:12px;border:1px solid var(--border)">
+          <div style="font-size:1.8rem;font-weight:800;color:var(--primary-light);font-family:'Nunito',sans-serif">50</div>
+          <div style="font-size:0.75rem;color:var(--text3)">Soal</div>
+        </div>
+        <div style="text-align:center;padding:16px 24px;background:var(--card);border-radius:12px;border:1px solid var(--border)">
+          <div style="font-size:1.8rem;font-weight:800;color:var(--secondary);font-family:'Nunito',sans-serif">4</div>
+          <div style="font-size:0.75rem;color:var(--text3)">Pilihan</div>
+        </div>
+        <div style="text-align:center;padding:16px 24px;background:var(--card);border-radius:12px;border:1px solid var(--border)">
+          <div style="font-size:1.8rem;font-weight:800;color:var(--accent);font-family:'Nunito',sans-serif">✓</div>
+          <div style="font-size:0.75rem;color:var(--text3)">Auto Koreksi</div>
+        </div>
+      </div>
+      <button class="quiz-start-btn" onclick="startQuiz()">🚀 Mulai Latihan!</button>
+    </div>
+    <div id="quizMain" style="display:none"></div>
+    <div id="quizScore" style="display:none"></div>
+  </div>
+</div>
+
+<script>
+// ===== AUDIO =====
+let audioCtx = null;
+let musicPlaying = false;
+let musicInterval = null;
+
+function toggleMusic() {
+  if (!audioCtx) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  if (musicPlaying) {
+    stopMusic();
+  } else {
+    playMusic();
+  }
+}
+
+function playNote(freq, start, dur, vol=0.08) {
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.connect(gain); gain.connect(audioCtx.destination);
+  osc.type = 'sine';
+  osc.frequency.setValueAtTime(freq, audioCtx.currentTime + start);
+  gain.gain.setValueAtTime(0, audioCtx.currentTime + start);
+  gain.gain.linearRampToValueAtTime(vol, audioCtx.currentTime + start + 0.05);
+  gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + start + dur - 0.05);
+  osc.start(audioCtx.currentTime + start);
+  osc.stop(audioCtx.currentTime + start + dur);
+}
+
+const melody = [261.6,293.7,329.6,349.2,392,440,493.9,523.3,493.9,440,392,349.2,329.6,293.7,261.6,0,
+                392,440,523.3,587.3,659.3,587.3,523.3,440,392,0,
+                261.6,329.6,392,523.3,493.9,392,329.6,261.6];
+let melodyIdx = 0;
+let beatTime = 0;
+
+function playBeat() {
+  if (!musicPlaying) return;
+  const now = audioCtx.currentTime;
+  for(let i=0;i<8;i++) {
+    const freq = melody[(melodyIdx + i) % melody.length];
+    if(freq > 0) playNote(freq, i*0.3, 0.28, 0.06);
+  }
+  // Bass
+  playNote(130.8, 0, 1.2, 0.04);
+  playNote(146.8, 1.2, 1.2, 0.04);
+  melodyIdx = (melodyIdx + 8) % melody.length;
+}
+
+function playMusic() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  musicPlaying = true;
+  document.getElementById('musicBtn').classList.add('playing');
+  document.getElementById('musicBtn').textContent = '🔊';
+  playBeat();
+  musicInterval = setInterval(playBeat, 2400);
+}
+
+function stopMusic() {
+  musicPlaying = false;
+  clearInterval(musicInterval);
+  document.getElementById('musicBtn').classList.remove('playing');
+  document.getElementById('musicBtn').textContent = '🎵';
+}
+
+// ===== PAGE SWITCH =====
+function switchPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ===== FEATURE TOGGLES =====
+function toggleFeature(name) {
+  const panel = document.getElementById('feature-' + name);
+  const btn = document.getElementById('btn-' + name);
+  const isOpen = panel.classList.contains('open');
+  panel.classList.toggle('open', !isOpen);
+  btn.classList.toggle('active', !isOpen);
+  if (name === 'draw' && !isOpen) initCanvas();
+  if (name === 'balls' && !isOpen) initBalls();
+  if (name === 'balls' && isOpen) stopBalls();
+}
+
+// ===== MATERI DATA =====
+const materiData = [
+  { no:1, cat:'kimia', badge:'badge-kimia', title:'Perubahan Kimia',
+    body:`<p>Perubahan kimia adalah perubahan zat yang menghasilkan zat baru dengan sifat berbeda dari zat asalnya. Perubahan ini bersifat <strong>irreversibel (tidak bisa kembali)</strong>.</p>
+    <div class="highlight">📌 Contoh: Besi berkarat, kayu terbakar, susu basi, fotosintesis, respirasi sel</div>
+    <p>Berbeda dengan perubahan fisika yang hanya mengubah bentuk/wujud tanpa menghasilkan zat baru (seperti es mencair, kertas dirobek).</p>` },
+  { no:2, cat:'kimia', badge:'badge-kimia', title:'Ciri-ciri Reaksi Kimia',
+    body:`<p>Reaksi kimia dapat dikenali dari beberapa ciri:</p>
+    <ul>
+      <li>🔥 <strong>Terjadi perubahan warna</strong> (misal: buah apel coklat saat dipotong)</li>
+      <li>💨 <strong>Terbentuk gas</strong> (misal: cuka + baking soda menghasilkan CO₂)</li>
+      <li>⚡ <strong>Terbentuk endapan</strong> (misal: larutan timbal nitrat + kalium iodida)</li>
+      <li>🌡 <strong>Perubahan suhu</strong> (eksoterm/endoterm)</li>
+      <li>💡 <strong>Muncul cahaya/nyala</strong></li>
+    </ul>` },
+  { no:3, cat:'kimia', badge:'badge-kimia', title:'Koefisien & Indeks Reaksi Kimia',
+    body:`<p><strong>Koefisien</strong> adalah angka yang ditulis di depan rumus kimia dalam persamaan reaksi, menunjukkan jumlah mol zat.</p>
+    <p><strong>Indeks</strong> adalah angka kecil di bawah simbol atom dalam rumus kimia (subscript), menunjukkan jumlah atom dalam satu molekul.</p>
+    <div class="highlight">Contoh: 2H₂O → Koefisien = 2, Indeks O = 1, Indeks H = 2<br>Artinya: 2 molekul air</div>
+    <p>Persamaan reaksi harus setara: jumlah atom kiri = kanan (Hukum Kekekalan Massa).</p>` },
+  { no:4, cat:'kimia', badge:'badge-kimia', title:'Reaktan & Produk',
+    body:`<p>Dalam persamaan reaksi kimia:</p>
+    <ul>
+      <li>⬅ <strong>Reaktan (pereaksi)</strong>: zat-zat yang bereaksi, ditulis di <strong>sebelah kiri</strong> tanda panah</li>
+      <li>➡ <strong>Produk (hasil reaksi)</strong>: zat-zat yang dihasilkan, ditulis di <strong>sebelah kanan</strong></li>
+    </ul>
+    <div class="highlight">Contoh: CH₄ + 2O₂ → CO₂ + 2H₂O<br>Reaktan: CH₄ dan O₂ | Produk: CO₂ dan H₂O</div>` },
+  { no:5, cat:'kimia', badge:'badge-kimia', title:'Uji Asam Basa dengan Kertas Lakmus',
+    body:`<p>Kertas lakmus digunakan untuk mengidentifikasi sifat larutan:</p>
+    <ul>
+      <li>🔴 <strong>Lakmus merah + larutan asam</strong> → tetap <strong>merah</strong></li>
+      <li>🔴 <strong>Lakmus merah + larutan basa</strong> → berubah <strong>biru</strong></li>
+      <li>🔵 <strong>Lakmus biru + larutan asam</strong> → berubah <strong>merah</strong></li>
+      <li>🔵 <strong>Lakmus biru + larutan basa</strong> → tetap <strong>biru</strong></li>
+    </ul>
+    <div class="highlight">Larutan netral: tidak mengubah warna kedua kertas lakmus</div>` },
+  { no:6, cat:'kimia', badge:'badge-kimia', title:'Menentukan Koefisien Reaksi',
+    body:`<p>Cara menyetarakan persamaan reaksi:</p>
+    <ul>
+      <li>Hitung atom tiap unsur di kiri dan kanan</li>
+      <li>Tambahkan koefisien agar jumlah atom sama</li>
+      <li>Gunakan metode coba-coba atau aljabar</li>
+    </ul>
+    <div class="highlight">Contoh setarakan: _H₂ + _O₂ → _H₂O<br>Jawab: 2H₂ + O₂ → 2H₂O ✓<br>(H: kiri=4, kanan=4 ✓ | O: kiri=2, kanan=2 ✓)</div>` },
+  { no:7, cat:'kimia', badge:'badge-kimia', title:'Identifikasi Larutan dengan Kertas pH',
+    body:`<p>Kertas pH / indikator universal menunjukkan nilai pH yang menentukan keasaman:</p>
+    <ul>
+      <li>pH 1–6 → Asam (semakin kecil semakin asam)</li>
+      <li>pH 7 → Netral</li>
+      <li>pH 8–14 → Basa (semakin besar semakin basa)</li>
+    </ul>
+    <div class="highlight">Contoh: Asam lambung pH ≈ 2, Air hujan pH ≈ 5-6, Darah pH ≈ 7.4, Sabun pH ≈ 9-10</div>` },
+  { no:8, cat:'kimia', badge:'badge-kimia', title:'Faktor yang Mempengaruhi Laju Reaksi',
+    body:`<p>Laju reaksi kimia dipengaruhi oleh:</p>
+    <ul>
+      <li>🌡 <strong>Suhu</strong>: semakin tinggi suhu → laju semakin cepat</li>
+      <li>⚡ <strong>Konsentrasi</strong>: semakin pekat → laju semakin cepat</li>
+      <li>📐 <strong>Luas permukaan</strong>: serbuk lebih cepat bereaksi daripada bongkahan</li>
+      <li>🧪 <strong>Katalis</strong>: mempercepat reaksi tanpa ikut bereaksi</li>
+    </ul>` },
+  { no:9, cat:'bio', badge:'badge-bio', title:'Materi Genetik (DNA & RNA)',
+    body:`<p><strong>Materi genetik</strong> adalah informasi pembawa sifat keturunan dalam sel.</p>
+    <ul>
+      <li>🧬 <strong>DNA (Asam Deoksiribonukleat)</strong>: double helix, terdapat di inti sel, mengandung gen</li>
+      <li>🔗 <strong>RNA (Asam Ribonukleat)</strong>: rantai tunggal, berperan dalam sintesis protein</li>
+      <li>📦 <strong>Kromosom</strong>: struktur yang membawa DNA dalam inti sel</li>
+      <li>🔬 <strong>Gen</strong>: segmen DNA yang mengkode protein tertentu</li>
+    </ul>
+    <div class="highlight">Manusia memiliki 46 kromosom (23 pasang) dalam setiap sel tubuh</div>` },
+  { no:10, cat:'bio', badge:'badge-bio', title:'Istilah dalam Genetika',
+    body:`<p>Istilah penting dalam genetika:</p>
+    <ul>
+      <li>🔴 <strong>Dominan</strong>: sifat yang selalu muncul jika ada (dilambangkan huruf BESAR)</li>
+      <li>⚪ <strong>Resesif</strong>: sifat yang muncul hanya jika berpasangan dengan resesif (huruf kecil)</li>
+      <li>👁 <strong>Fenotipe</strong>: sifat yang tampak dari luar (warna, bentuk)</li>
+      <li>🧬 <strong>Genotipe</strong>: susunan gen (AA, Aa, aa)</li>
+      <li>⚖️ <strong>Homozigot</strong>: gen sama (AA atau aa)</li>
+      <li>🔀 <strong>Heterozigot</strong>: gen berbeda (Aa)</li>
+    </ul>` },
+  { no:11, cat:'bio', badge:'badge-bio', title:'Persilangan Monohibrid',
+    body:`<p><strong>Monohibrid</strong> adalah persilangan dengan <strong>satu sifat beda</strong>.</p>
+    <div class="highlight">Contoh: Bunga merah (MM) × bunga putih (mm)<br>→ F1: semua Mm (merah) → dominan penuh<br>→ F2 dari Mm×Mm: MM : Mm : mm = 1:2:1<br>→ Fenotipe: Merah : Putih = 3:1</div>
+    <p>Hukum Mendel I (Hukum Segregasi): pasangan alel memisah saat pembentukan gamet.</p>` },
+  { no:12, cat:'bio', badge:'badge-bio', title:'Hasil Persilangan Monohibrid',
+    body:`<p>Cara membuat diagram Punnett untuk monohibrid:</p>
+    <div class="highlight">P: Mm × Mm<br>Gamet M dan m (dari kedua induk)<br>Kotak Punnett:<br>
+    &nbsp;&nbsp;&nbsp;M &nbsp;&nbsp; m<br>
+    M | MM | Mm |<br>
+    m | Mm | mm |<br><br>
+    Genotipe MM:Mm:mm = 1:2:1<br>Fenotipe Merah:Putih = 3:1</div>` },
+  { no:13, cat:'bio', badge:'badge-bio', title:'Persilangan Dihibrid',
+    body:`<p><strong>Dihibrid</strong> adalah persilangan dengan <strong>dua sifat beda</strong> sekaligus.</p>
+    <div class="highlight">Contoh: BBKK × bbkk (B=bulat, b=lonjong, K=kuning, k=hijau)<br>F1: BbKk (semua bulat-kuning)<br>F2 dari BbKk×BbKk:<br>Fenotipe = Bulat Kuning : Bulat Hijau : Lonjong Kuning : Lonjong Hijau = 9:3:3:1</div>
+    <p>Hukum Mendel II: pemisahan gen-gen yang tidak bertaut (Law of Independent Assortment).</p>` },
+  { no:14, cat:'bio', badge:'badge-bio', title:'Menentukan Jumlah Gamet',
+    body:`<p>Jumlah jenis gamet ditentukan dengan rumus: <strong>2ⁿ</strong> (n = jumlah gen heterozigot)</p>
+    <div class="highlight">
+    Genotipe AA → n=0 → 2⁰ = 1 jenis gamet (A)<br>
+    Genotipe Aa → n=1 → 2¹ = 2 jenis gamet (A, a)<br>
+    Genotipe AaBb → n=2 → 2² = 4 jenis gamet (AB, Ab, aB, ab)<br>
+    Genotipe AaBbCc → n=3 → 2³ = 8 jenis gamet
+    </div>` },
+  { no:15, cat:'bio', badge:'badge-bio', title:'Produk Bioteknologi (Jamur & Bakteri)',
+    body:`<p>Produk bioteknologi berdasarkan mikroorganisme:</p>
+    <ul>
+      <li>🍄 <strong>Jamur Rhizopus oryzae</strong> → Tempe</li>
+      <li>🍄 <strong>Saccharomyces cerevisiae</strong> → Roti, bir, tape</li>
+      <li>🍄 <strong>Aspergillus wentii</strong> → Kecap</li>
+      <li>🧫 <strong>Lactobacillus bulgaricus</strong> → Yogurt</li>
+      <li>🧫 <strong>Acetobacter xylinum</strong> → Nata de coco</li>
+      <li>🧫 <strong>Lactobacillus acidophilus</strong> → Keju</li>
+    </ul>` },
+  { no:16, cat:'bio', badge:'badge-bio', title:'Fermentasi pada Pembuatan Tempe',
+    body:`<p>Tempe dibuat melalui proses fermentasi kedelai oleh jamur <strong>Rhizopus oryzae</strong> (dan Rhizopus oligosporus).</p>
+    <p>Tahap pembuatan tempe:</p>
+    <ul>
+      <li>Kedelai dicuci dan direndam 8-12 jam</li>
+      <li>Direbus/dikukus hingga lunak</li>
+      <li>Dikupas dan dikeringkan</li>
+      <li>Ditambah ragi (inokulum Rhizopus)</li>
+      <li>Dibungkus dan difermentasi 36-48 jam suhu ruang</li>
+    </ul>
+    <div class="highlight">Miselium jamur mengikat kedelai → tempe padat dan bergizi tinggi</div>` },
+  { no:17, cat:'bio', badge:'badge-bio', title:'Bioteknologi Konvensional & Modern',
+    body:`<p><strong>Bioteknologi Konvensional (Tradisional):</strong></p>
+    <ul>
+      <li>Tidak memanipulasi gen secara langsung</li>
+      <li>Menggunakan fermentasi sederhana</li>
+      <li>Contoh: tempe, tape, yogurt, keju, kecap</li>
+    </ul>
+    <p><strong>Bioteknologi Modern:</strong></p>
+    <ul>
+      <li>Menggunakan rekayasa genetika (DNA rekombinan)</li>
+      <li>Kloning, kultur jaringan, transgenik</li>
+      <li>Contoh: insulin sintetis, vaksin, tanaman GM, antibiotik</li>
+    </ul>` },
+  { no:18, cat:'bio', badge:'badge-bio', title:'Proses Pembuatan Roti',
+    body:`<p>Roti dibuat dengan bantuan jamur <strong>Saccharomyces cerevisiae</strong> (ragi roti).</p>
+    <p>Proses fermentasi pada roti:</p>
+    <div class="highlight">C₆H₁₂O₆ → 2C₂H₅OH + 2CO₂ + energi<br>(Gula → Alkohol + Karbon dioksida)</div>
+    <p>Gas CO₂ yang dihasilkan membuat adonan mengembang dan roti bertekstur ringan dan berpori.</p>
+    <p>Alkohol menguap saat pemanggangan sehingga roti tidak mengandung alkohol.</p>` },
+  { no:19, cat:'bio', badge:'badge-bio', title:'Vaksinasi dan Sel Memori',
+    body:`<p><strong>Vaksinasi</strong> adalah pemberian antigen yang dilemahkan/dimatikan untuk merangsang sistem imun.</p>
+    <p>Prinsip kerja:</p>
+    <ul>
+      <li>Vaksin masuk → tubuh mengenali antigen</li>
+      <li>Sel B dan T aktif membentuk antibodi</li>
+      <li>Terbentuk <strong>sel memori (memory cell)</strong></li>
+      <li>Jika pathogen asli masuk → sel memori cepat bereaksi</li>
+    </ul>
+    <div class="highlight">Sel memori bertahan bertahun-tahun → memberikan kekebalan jangka panjang (imunitas aktif buatan)</div>` },
+  { no:20, cat:'bio', badge:'badge-bio', title:'Pembuatan Insulin Sintetis',
+    body:`<p>Insulin sintetis diproduksi melalui teknologi <strong>DNA rekombinan</strong>:</p>
+    <ul>
+      <li>Gen insulin manusia diidentifikasi dan dipotong dengan enzim restriksi</li>
+      <li>Gen disisipkan ke <strong>plasmid</strong> bakteri E. coli</li>
+      <li>Bakteri yang mengandung gen insulin dikembangbiakkan dalam fermentor</li>
+      <li>Insulin dipanen, dimurnikan, dikemas</li>
+    </ul>
+    <div class="highlight">Insulin dibutuhkan penderita <strong>diabetes mellitus</strong> untuk mengatur kadar gula darah</div>` },
+  { no:21, cat:'bio', badge:'badge-bio', title:'Dampak Positif & Negatif Bioteknologi',
+    body:`<p><strong>Dampak Positif:</strong></p>
+    <ul>
+      <li>Produksi pangan lebih efisien (tanaman GM tahan hama)</li>
+      <li>Obat-obatan baru (insulin, antibiotik, vaksin)</li>
+      <li>Bioremediasi (membersihkan limbah)</li>
+      <li>Tanaman unggul tahan kekeringan</li>
+    </ul>
+    <p><strong>Dampak Negatif:</strong></p>
+    <ul>
+      <li>Risiko alergi dan toksisitas produk GMO</li>
+      <li>Monopoli oleh perusahaan besar</li>
+      <li>Risiko pelepasan organisme baru ke alam</li>
+      <li>Isu etika (kloning manusia)</li>
+    </ul>` },
+  { no:22, cat:'lingkungan', badge:'badge-lingkungan', title:'Mengatasi Permasalahan Lingkungan',
+    body:`<p>Prinsip <strong>3R + 1R</strong> untuk mengurangi masalah lingkungan:</p>
+    <ul>
+      <li>♻️ <strong>Reduce</strong>: mengurangi penggunaan barang pencemar</li>
+      <li>🔄 <strong>Reuse</strong>: menggunakan kembali barang bekas</li>
+      <li>🔃 <strong>Recycle</strong>: mendaur ulang sampah menjadi produk baru</li>
+      <li>🌱 <strong>Replace</strong>: mengganti bahan berbahaya dengan ramah lingkungan</li>
+    </ul>
+    <div class="highlight">Bioremediasi: menggunakan mikroorganisme untuk membersihkan lingkungan tercemar</div>` },
+  { no:23, cat:'lingkungan', badge:'badge-lingkungan', title:'Kepadatan Penduduk & Kualitas Air',
+    body:`<p>Hubungan kepadatan penduduk dengan kualitas air:</p>
+    <ul>
+      <li>Semakin padat penduduk → semakin banyak limbah rumah tangga</li>
+      <li>Limbah domestik mencemari sungai dan air tanah</li>
+      <li>Kualitas air semakin menurun (BOD tinggi, E. coli banyak)</li>
+    </ul>
+    <div class="highlight">Grafik: Kepadatan penduduk ↑ → Kualitas air ↓ (berbanding terbalik)</div>
+    <p>Solusi: IPAL (Instalasi Pengolahan Air Limbah), sumur resapan, pengolahan air minum.</p>` },
+  { no:24, cat:'lingkungan', badge:'badge-lingkungan', title:'Akibat Kerusakan Hutan',
+    body:`<p>Dampak kerusakan/penebangan hutan:</p>
+    <ul>
+      <li>🌊 <strong>Banjir dan tanah longsor</strong> karena tidak ada penahan air</li>
+      <li>🏜 <strong>Erosi dan desertifikasi</strong> (tanah menjadi tandus)</li>
+      <li>🌡 <strong>Pemanasan global</strong> karena CO₂ tidak terserap</li>
+      <li>🦁 <strong>Kepunahan flora-fauna</strong> (hilangnya habitat)</li>
+      <li>💨 <strong>Kekeringan</strong> karena siklus air terganggu</li>
+      <li>🌬 <strong>Polusi udara meningkat</strong></li>
+    </ul>` },
+  { no:25, cat:'lingkungan', badge:'badge-lingkungan', title:'Cara Mengatasi Limbah',
+    body:`<p>Pengelolaan limbah berdasarkan jenisnya:</p>
+    <ul>
+      <li>🌿 <strong>Limbah organik</strong>: kompos, biogas, pakan ternak</li>
+      <li>♻️ <strong>Limbah anorganik</strong>: daur ulang (plastik, kertas, logam)</li>
+      <li>🏭 <strong>Limbah industri</strong>: IPAL, insinerasi (pembakaran terkontrol)</li>
+      <li>☣️ <strong>Limbah B3</strong>: penyimpanan khusus, netralisasi</li>
+    </ul>
+    <div class="highlight">Tempat Pembuangan Akhir (TPA) modern menggunakan sistem sanitary landfill untuk mencegah pencemaran</div>` },
+  { no:26, cat:'lingkungan', badge:'badge-lingkungan', title:'Efek Rumah Kaca',
+    body:`<p><strong>Efek rumah kaca</strong> adalah fenomena peningkatan suhu bumi akibat terperangkapnya radiasi panas matahari oleh gas-gas di atmosfer.</p>
+    <p>Gas rumah kaca: CO₂, CH₄ (metana), N₂O, CFC, uap air</p>
+    <p>Penyebab meningkat: pembakaran bahan bakar fosil, deforestasi, industri, peternakan</p>
+    <div class="highlight">Dampak: kenaikan suhu global (pemanasan global), mencairnya es kutub, naiknya permukaan laut, perubahan iklim ekstrem</div>` },
+  { no:27, cat:'lingkungan', badge:'badge-lingkungan', title:'CFC pada AC dan Penipisan Ozon',
+    body:`<p><strong>CFC (Chloro-Fluoro-Carbon)</strong> digunakan sebagai refrigeran (pendingin) dalam AC, kulkas, dan semprotan aerosol.</p>
+    <p>Dampak CFC terhadap lapisan ozon:</p>
+    <ul>
+      <li>CFC terurai di stratosfer melepaskan atom Cl</li>
+      <li>Cl merusak molekul O₃ (ozon)</li>
+      <li>Lapisan ozon menipis → lubang ozon</li>
+      <li>Radiasi UV berlebih ke bumi → kanker kulit, katarak</li>
+    </ul>
+    <div class="highlight">Protokol Montreal (1987): perjanjian internasional melarang penggunaan CFC. Digantikan HFC (lebih aman)</div>` },
+];
+
+let openCards = new Set();
+let readCards = new Set();
+
+function renderMateri(filter='', cat='all') {
+  const grid = document.getElementById('materiGrid');
+  grid.innerHTML = '';
+  materiData.forEach((item, idx) => {
+    const matchText = item.title.toLowerCase().includes(filter.toLowerCase()) || item.body.toLowerCase().includes(filter.toLowerCase());
+    const matchCat = cat === 'all' || item.cat === cat;
+    const card = document.createElement('div');
+    card.className = 'materi-card' + ((!matchText || !matchCat) ? ' hidden' : '');
+    card.dataset.cat = item.cat;
+    card.dataset.idx = idx;
+    card.innerHTML = `
+      <div class="card-header" onclick="toggleCard(${idx})">
+        <div class="card-num">${item.no}</div>
+        <div>
+          <span class="card-badge ${item.badge}">${item.cat === 'kimia' ? '⚗️ Kimia' : item.cat === 'bio' ? '🧬 Biologi' : '🌍 Lingkungan'}</span>
+          <div class="card-title">${item.title}</div>
+        </div>
+        <div class="card-icon" id="icon-${idx}">${openCards.has(idx) ? '▲' : '▼'}</div>
+      </div>
+      <div class="card-body ${openCards.has(idx) ? 'open' : ''}" id="body-${idx}">
+        ${item.body}
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+
+function toggleCard(idx) {
+  const body = document.getElementById('body-' + idx);
+  const icon = document.getElementById('icon-' + idx);
+  if(body.classList.contains('open')) {
+    body.classList.remove('open');
+    icon.textContent = '▼';
+    openCards.delete(idx);
+  } else {
+    body.classList.add('open');
+    icon.textContent = '▲';
+    openCards.add(idx);
+    readCards.add(idx);
+    updateProgress();
+  }
+}
+
+function updateProgress() {
+  const pct = (readCards.size / materiData.length * 100).toFixed(0);
+  document.getElementById('readProgress').style.width = pct + '%';
+  document.getElementById('readCount').textContent = readCards.size + '/' + materiData.length;
+}
+
+function filterMateri(val) {
+  const activeCat = document.querySelector('.cat-btn.active')?.dataset?.cat || 'all';
+  const cards = document.querySelectorAll('.materi-card');
+  cards.forEach(card => {
+    const idx = parseInt(card.dataset.idx);
+    const item = materiData[idx];
+    const matchText = item.title.toLowerCase().includes(val.toLowerCase()) || item.body.toLowerCase().includes(val.toLowerCase());
+    const matchCat = activeCat === 'all' || item.cat === activeCat;
+    card.classList.toggle('hidden', !matchText || !matchCat);
+  });
+}
+
+let activeCat = 'all';
+function filterCat(cat, btn) {
+  activeCat = cat;
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const searchVal = document.querySelector('.search-input')?.value || '';
+  filterMateri(searchVal);
+}
+
+// ===== AI ASK =====
+async function askAI() {
+  const q = document.getElementById('aiQuestion').value.trim();
+  if (!q) return;
+  const resp = document.getElementById('aiResponse');
+  resp.className = 'ai-response show';
+  resp.innerHTML = '<span class="spin">⏳</span> Sedang memproses...';
+  
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: 'Kamu adalah tutor IPA kelas 9 SMP yang ahli. Jelaskan dengan bahasa Indonesia yang mudah dipahami siswa SMP. Berikan penjelasan singkat, jelas, dan tambahkan contoh bila perlu. Fokus pada materi IPA semester genap: reaksi kimia, genetika, bioteknologi, dan lingkungan.',
+        messages: [{ role: 'user', content: q }]
+      })
+    });
+    const data = await res.json();
+    const text = data.content?.map(c => c.text || '').join('') || 'Maaf, tidak dapat merespons.';
+    resp.innerHTML = '🤖 <strong>Jawaban AI:</strong><br><br>' + text.replace(/\n/g, '<br>');
+  } catch(e) {
+    resp.innerHTML = '❌ Tidak dapat terhubung ke AI. Coba lagi.';
+  }
+}
+
+document.getElementById('aiQuestion')?.addEventListener('keypress', e => {
+  if(e.key === 'Enter') askAI();
+});
+
+// ===== CANVAS DRAW =====
+let drawCtx, drawTool = 'pen', drawColor = '#a78bfa', drawSize = 4;
+let isDrawing = false, lastX = 0, lastY = 0;
+
+function initCanvas() {
+  const c = document.getElementById('drawCanvas');
+  c.width = c.offsetWidth;
+  c.height = 260;
+  drawCtx = c.getContext('2d');
+  drawCtx.fillStyle = '#1a1030';
+  drawCtx.fillRect(0, 0, c.width, c.height);
+  
+  c.addEventListener('mousedown', startDraw);
+  c.addEventListener('mousemove', doDraw);
+  c.addEventListener('mouseup', () => isDrawing = false);
+  c.addEventListener('mouseleave', () => isDrawing = false);
+  c.addEventListener('touchstart', e => { e.preventDefault(); const t = e.touches[0]; startDraw({offsetX: t.clientX - c.getBoundingClientRect().left, offsetY: t.clientY - c.getBoundingClientRect().top}); }, {passive:false});
+  c.addEventListener('touchmove', e => { e.preventDefault(); const t = e.touches[0]; doDraw({offsetX: t.clientX - c.getBoundingClientRect().left, offsetY: t.clientY - c.getBoundingClientRect().top}); }, {passive:false});
+  c.addEventListener('touchend', () => isDrawing = false);
+}
+
+function startDraw(e) {
+  isDrawing = true;
+  lastX = e.offsetX; lastY = e.offsetY;
+}
+function doDraw(e) {
+  if (!isDrawing || !drawCtx) return;
+  drawCtx.beginPath();
+  drawCtx.moveTo(lastX, lastY);
+  drawCtx.lineTo(e.offsetX, e.offsetY);
+  drawCtx.strokeStyle = drawTool === 'eraser' ? '#1a1030' : drawColor;
+  drawCtx.lineWidth = drawTool === 'eraser' ? drawSize * 4 : drawSize;
+  drawCtx.lineCap = 'round';
+  drawCtx.stroke();
+  lastX = e.offsetX; lastY = e.offsetY;
+}
+function setTool(t) {
+  drawTool = t;
+  document.getElementById('tool-pen').classList.toggle('active', t === 'pen');
+  document.getElementById('tool-eraser').classList.toggle('active', t === 'eraser');
+}
+function setColor(el) {
+  drawColor = el.dataset.color;
+  document.querySelectorAll('.color-dot').forEach(d => d.classList.remove('active'));
+  el.classList.add('active');
+}
+function setBrush(val) { drawSize = parseInt(val); }
+function clearCanvas() {
+  const c = document.getElementById('drawCanvas');
+  drawCtx.fillStyle = '#1a1030';
+  drawCtx.fillRect(0, 0, c.width, c.height);
+}
+
+// ===== BALLS =====
+let ballsAnim;
+let balls = [];
+class Ball {
+  constructor(w, h) {
+    this.x = Math.random() * w;
+    this.y = Math.random() * h;
+    this.r = 12 + Math.random() * 20;
+    this.vx = (Math.random() - 0.5) * 4;
+    this.vy = (Math.random() - 0.5) * 4;
+    this.color = ['#8b5cf6','#f59e0b','#10b981','#ef4444','#60a5fa','#f472b6'][Math.floor(Math.random()*6)];
+    this.emoji = ['⚽','🏀','🎾','🔵','🟡','🟢','🔴'][Math.floor(Math.random()*7)];
+  }
+  update(w, h) {
+    this.x += this.vx; this.y += this.vy;
+    if (this.x < this.r || this.x > w - this.r) this.vx *= -1;
+    if (this.y < this.r || this.y > h - this.r) this.vy *= -1;
+  }
+  draw(ctx) {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+    ctx.fillStyle = this.color + '88';
+    ctx.fill();
+    ctx.strokeStyle = this.color;
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    ctx.font = `${this.r}px serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(this.emoji, this.x, this.y);
+  }
+}
+
+function initBalls() {
+  const c = document.getElementById('ballsCanvas');
+  c.width = c.offsetWidth;
+  c.height = 250;
+  balls = Array.from({length:12}, () => new Ball(c.width, c.height));
+  const ctx = c.getContext('2d');
+  
+  c.addEventListener('click', e => {
+    const rect = c.getBoundingClientRect();
+    const mx = e.clientX - rect.left, my = e.clientY - rect.top;
+    balls.forEach(b => {
+      const dx = b.x - mx, dy = b.y - my;
+      const dist = Math.sqrt(dx*dx+dy*dy);
+      if(dist < b.r + 20) {
+        b.vx = (dx/dist) * 8;
+        b.vy = (dy/dist) * 8;
+      }
+    });
+  });
+
+  function loop() {
+    ctx.fillStyle = '#0f0a1e';
+    ctx.fillRect(0, 0, c.width, c.height);
+    balls.forEach(b => { b.update(c.width, c.height); b.draw(ctx); });
+    ballsAnim = requestAnimationFrame(loop);
+  }
+  loop();
+}
+function stopBalls() { if(ballsAnim) cancelAnimationFrame(ballsAnim); }
+
+// ===== QUIZ DATA =====
+const quizData = [
+  { q:'Manakah contoh perubahan kimia berikut yang benar?', opts:['Es yang mencair','Kertas yang dirobek','Besi yang berkarat','Gula yang larut dalam air'], ans:2, exp:'Besi berkarat adalah perubahan kimia karena terbentuk zat baru (Fe₂O₃) dengan sifat berbeda. Es mencair, kertas dirobek, dan gula larut adalah perubahan fisika karena tidak menghasilkan zat baru.' },
+  { q:'Berikut ini merupakan ciri-ciri terjadinya reaksi kimia, kecuali...', opts:['Terbentuk endapan','Terjadi perubahan warna','Terbentuk gas','Perubahan wujud tanpa panas'], ans:3, exp:'Perubahan wujud tanpa panas bukanlah ciri reaksi kimia, melainkan perubahan fisika. Ciri reaksi kimia meliputi: terbentuk endapan, perubahan warna, terbentuk gas, dan perubahan suhu.' },
+  { q:'Dalam persamaan reaksi 2H₂ + O₂ → 2H₂O, koefisien H₂ adalah...', opts:['1','2','3','4'], ans:1, exp:'Koefisien adalah angka di depan rumus kimia. Pada 2H₂, angka 2 adalah koefisiennya, berarti 2 molekul hidrogen. Indeks adalah angka kecil di bawah (subscript), seperti angka 2 pada H₂.' },
+  { q:'Pada persamaan reaksi CH₄ + 2O₂ → CO₂ + 2H₂O, yang termasuk produk reaksi adalah...', opts:['CH₄ dan O₂','CH₄ dan CO₂','CO₂ dan H₂O','O₂ dan H₂O'], ans:2, exp:'Produk (hasil reaksi) adalah zat yang berada di sebelah KANAN tanda panah. Pada reaksi ini, produknya adalah CO₂ dan H₂O. Sedangkan CH₄ dan O₂ adalah reaktan (pereaksi).' },
+  { q:'Kertas lakmus merah dimasukkan ke dalam larutan basa, maka kertas lakmus akan berubah menjadi warna...', opts:['Merah','Biru','Hijau','Kuning'], ans:1, exp:'Kertas lakmus merah berubah menjadi BIRU jika dimasukkan ke larutan basa. Lakmus merah tetap merah jika dimasukkan ke larutan asam atau netral.' },
+  { q:'Larutan dengan pH = 9 bersifat...', opts:['Asam kuat','Asam lemah','Basa','Netral'], ans:2, exp:'pH 9 bersifat BASA karena pH > 7. Skala pH: 1-6 asam, 7 netral, 8-14 basa. Semakin besar nilai pH di atas 7, semakin kuat sifat basanya.' },
+  { q:'Faktor yang TIDAK mempengaruhi laju reaksi kimia adalah...', opts:['Suhu','Konsentrasi','Warna zat','Luas permukaan'], ans:2, exp:'Warna zat tidak mempengaruhi laju reaksi kimia. Faktor yang mempengaruhi laju reaksi adalah: suhu, konsentrasi reaktan, luas permukaan, dan katalis.' },
+  { q:'Peningkatan suhu akan mempengaruhi laju reaksi kimia karena...', opts:['Mengurangi konsentrasi reaktan','Meningkatkan energi kinetik partikel','Mengurangi luas permukaan','Mengubah jenis katalis'], ans:1, exp:'Peningkatan suhu meningkatkan energi kinetik partikel sehingga partikel bergerak lebih cepat dan lebih sering bertumbukan. Lebih banyak tumbukan efektif menyebabkan laju reaksi meningkat.' },
+  { q:'Struktur yang membawa informasi genetik (DNA) dalam inti sel disebut...', opts:['Mitokondria','Ribosom','Kromosom','Membran sel'], ans:2, exp:'Kromosom adalah struktur dalam inti sel yang membawa DNA. Manusia memiliki 46 kromosom (23 pasang). Kromosom tersusun dari DNA yang melilit protein histon.' },
+  { q:'Sifat yang hanya muncul pada keturunan jika individu tersebut homozigot resesif disebut...', opts:['Dominan','Resesif','Kodominan','Intermediet'], ans:1, exp:'Sifat resesif hanya muncul (terekspresi) jika individu memiliki dua alel resesif (homozigot resesif, misal aa). Jika berpasangan dengan alel dominan (Aa), sifat resesif tidak tampak.' },
+  { q:'Persilangan yang melibatkan satu sifat beda disebut...', opts:['Dihibrid','Trihibrid','Monohibrid','Polihibrid'], ans:2, exp:'Monohibrid adalah persilangan yang memperhatikan/membahas satu sifat beda saja. Dihibrid membahas dua sifat beda, trihibrid tiga sifat beda.' },
+  { q:'Persilangan antara Mm × Mm akan menghasilkan rasio fenotipe pada F2 sebesar...', opts:['1:1','3:1','1:2:1','9:3:3:1'], ans:1, exp:'Dari Mm × Mm menghasilkan: MM : Mm : mm = 1:2:1 (rasio genotipe). Rasio fenotipe = MM (dominan) + Mm (dominan) : mm (resesif) = 3:1. Fenotipe dominan : resesif = 3:1.' },
+  { q:'Persilangan dihibrid BbKk × BbKk menghasilkan rasio fenotipe...', opts:['3:1','1:2:1','9:3:3:1','1:1:1:1'], ans:2, exp:'Persilangan dihibrid dengan dua heterozigot menghasilkan rasio fenotipe 9:3:3:1 (Hukum Mendel II / Law of Independent Assortment). 9 dominan keduanya : 3 dominan B resesif K : 3 resesif B dominan K : 1 resesif keduanya.' },
+  { q:'Genotipe AaBbCc menghasilkan berapa jenis gamet?', opts:['2','4','6','8'], ans:3, exp:'Jumlah jenis gamet = 2ⁿ dimana n = jumlah gen heterozigot. Pada AaBbCc terdapat 3 gen heterozigot (Aa, Bb, Cc), sehingga = 2³ = 8 jenis gamet.' },
+  { q:'Tempe merupakan produk bioteknologi konvensional yang menggunakan mikroorganisme...', opts:['Saccharomyces cerevisiae','Lactobacillus bulgaricus','Rhizopus oryzae','Acetobacter xylinum'], ans:2, exp:'Tempe dibuat dari fermentasi kedelai menggunakan jamur Rhizopus oryzae (dan Rhizopus oligosporus). Miselium jamur tumbuh mengikat kedelai sehingga terbentuk tempe yang padat.' },
+  { q:'Proses fermentasi pada pembuatan tempe dilakukan oleh...', opts:['Bakteri Lactobacillus','Jamur Rhizopus oryzae','Virus','Alga hijau-biru'], ans:1, exp:'Fermentasi tempe dilakukan oleh jamur Rhizopus oryzae. Jamur ini termasuk kingdom Fungi, bukan bakteri. Miselium putih yang terlihat pada tempe adalah filamen (hifa) jamur.' },
+  { q:'Perbedaan utama bioteknologi konvensional dan modern adalah...', opts:['Jenis mikroorganisme yang digunakan','Penggunaan rekayasa genetika (DNA rekombinan)','Skala produksinya','Harga produk yang dihasilkan'], ans:1, exp:'Perbedaan utama adalah penggunaan rekayasa genetika. Bioteknologi modern memanipulasi gen secara langsung (DNA rekombinan, kloning gen), sedangkan konvensional tidak.' },
+  { q:'Gas yang dihasilkan pada proses fermentasi pembuatan roti adalah...', opts:['Oksigen (O₂)','Hidrogen (H₂)','Karbon dioksida (CO₂)','Nitrogen (N₂)'], ans:2, exp:'Saccharomyces cerevisiae memfermentasi gula menghasilkan CO₂ dan alkohol (etanol). Gas CO₂ yang terperangkap dalam adonan menyebabkan roti mengembang dan bertekstur berpori.' },
+  { q:'Sel memori dalam sistem imun berperan untuk...', opts:['Menyerang antigen secara langsung','Mengingat antigen untuk respons imun yang lebih cepat','Membentuk antibodi pertama kali','Menghancurkan sel yang terinfeksi'], ans:1, exp:'Sel memori (memory cell) dibentuk setelah infeksi pertama atau vaksinasi. Sel ini bertahan lama dan akan memberikan respons imun yang lebih cepat dan kuat saat antigen yang sama masuk kembali.' },
+  { q:'Pembuatan insulin sintetis menggunakan prinsip...', opts:['Fermentasi konvensional','Kultur jaringan','DNA rekombinan (rekayasa genetika)','Hibridisasi somatik'], ans:2, exp:'Insulin sintetis dibuat dengan menyisipkan gen insulin manusia ke dalam plasmid bakteri E. coli menggunakan teknologi DNA rekombinan. Bakteri kemudian memproduksi insulin yang dipanen dan dimurnikan.' },
+  { q:'Berikut ini adalah dampak NEGATIF dari bioteknologi, kecuali...', opts:['Risiko alergi dari produk GMO','Monopoli oleh perusahaan besar','Peningkatan produksi pangan','Risiko pelepasan organisme baru ke alam'], ans:2, exp:'Peningkatan produksi pangan adalah dampak POSITIF bioteknologi. Dampak negatif meliputi risiko alergi, monopoli, risiko pelepasan organisme baru, dan isu etika.' },
+  { q:'Program 3R dalam mengatasi masalah lingkungan meliputi...', opts:['Read, Run, Rest','Reduce, Reuse, Recycle','Record, Report, Respond','Repair, Replace, Renew'], ans:1, exp:'3R = Reduce (mengurangi), Reuse (menggunakan kembali), Recycle (mendaur ulang). Kadang ditambah Replace (mengganti dengan bahan ramah lingkungan) menjadi 4R.' },
+  { q:'Hubungan antara kepadatan penduduk dan kualitas air adalah...', opts:['Berbanding lurus (kepadatan naik, kualitas naik)','Berbanding terbalik (kepadatan naik, kualitas turun)','Tidak berhubungan','Kualitas air tetap stabil'], ans:1, exp:'Semakin padat penduduk, semakin banyak limbah rumah tangga dan industri yang dihasilkan, sehingga kualitas air semakin menurun. Hubungannya berbanding terbalik.' },
+  { q:'Salah satu akibat dari kerusakan hutan adalah...', opts:['Meningkatnya keanekaragaman hayati','Menurunnya intensitas hujan di daerah sekitar','Berkurangnya erosi tanah','Meningkatnya produksi oksigen'], ans:1, exp:'Kerusakan hutan menyebabkan siklus air terganggu sehingga menurunnya intensitas hujan di sekitar daerah tersebut. Hutan berperan sebagai penyerap air dan penghasil uap air untuk siklus hujan.' },
+  { q:'Cara yang tepat untuk mengelola limbah organik dari dapur adalah...', opts:['Dibuang ke sungai','Dibakar','Dijadikan kompos','Dikubur dengan plastik'], ans:2, exp:'Limbah organik seperti sisa makanan dan sayuran dapat dijadikan kompos melalui pengomposan. Kompos bermanfaat sebagai pupuk alami yang menyuburkan tanah.' },
+  { q:'Gas rumah kaca yang paling banyak berkontribusi pada efek rumah kaca adalah...', opts:['Ozon (O₃)','Nitrogen (N₂)','Karbon dioksida (CO₂)','Oksigen (O₂)'], ans:2, exp:'CO₂ adalah gas rumah kaca utama yang berkontribusi terbesar pada efek rumah kaca karena jumlahnya yang sangat banyak di atmosfer akibat pembakaran bahan bakar fosil dan deforestasi.' },
+  { q:'CFC pada AC dapat merusak lingkungan karena...', opts:['Menghasilkan CO₂ berlebih','Merusak lapisan ozon di stratosfer','Menambah kandungan N₂O','Mengurangi O₂ di udara'], ans:1, exp:'CFC (Chloro-Fluoro-Carbon) yang terlepas ke atmosfer terurai di stratosfer dan melepaskan atom klorin yang merusak molekul ozon (O₃). Penipisan ozon menyebabkan radiasi UV berlebih sampai ke bumi.' },
+  { q:'Pernyataan yang benar tentang DNA dan RNA adalah...', opts:['DNA rantai tunggal, RNA rantai ganda','DNA berada di sitoplasma, RNA di inti sel','DNA rantai ganda (double helix), RNA rantai tunggal','Keduanya menyimpan informasi genetik yang sama'], ans:2, exp:'DNA berbentuk rantai ganda (double helix) dan berada di inti sel (nukleus), berfungsi menyimpan informasi genetik. RNA berbentuk rantai tunggal dan berperan dalam sintesis protein.' },
+  { q:'Jika fenotipe individu adalah berbulu halus dan gen dominan H mengkode bulu halus, genotipe yang mungkin adalah...', opts:['hh saja','HH dan Hh','Hh dan hh','hh dan HH'], ans:1, exp:'Individu berfenotipe dominan (berbulu halus) dapat bergenotipe HH (homozigot dominan) atau Hh (heterozigot). Keduanya mengekspresikan sifat dominan. Hanya hh yang mengekspresikan sifat resesif.' },
+  { q:'Pada persilangan tanaman berbunga merah (MM) × berbunga putih (mm), seluruh keturunan F1 berfenotipe...', opts:['Merah muda','Putih','Merah','Putih bercorak merah'], ans:2, exp:'Merah (M) bersifat dominan penuh terhadap putih (m). Persilangan MM × mm menghasilkan F1 semua Mm (heterozigot), dan karena M dominan, semua F1 berfenotipe merah.' },
+  { q:'Yogurt merupakan produk fermentasi yang dibuat menggunakan bakteri...', opts:['Rhizopus oryzae','Saccharomyces cerevisiae','Aspergillus wentii','Lactobacillus bulgaricus'], ans:3, exp:'Yogurt dibuat dari fermentasi susu oleh bakteri Lactobacillus bulgaricus (dan Streptococcus thermophilus). Bakteri mengubah laktosa menjadi asam laktat yang memberikan rasa asam pada yogurt.' },
+  { q:'Nata de coco merupakan produk bioteknologi yang menggunakan bakteri...', opts:['Lactobacillus acidophilus','Acetobacter xylinum','Rhizopus oryzae','Streptococcus thermophilus'], ans:1, exp:'Nata de coco dibuat dari fermentasi air kelapa menggunakan bakteri Acetobacter xylinum. Bakteri ini menghasilkan selulosa yang membentuk lapisan gel putih yang merupakan nata.' },
+  { q:'Berapa pasang kromosom yang dimiliki sel tubuh manusia normal?', opts:['23 pasang','46 pasang','24 pasang','22 pasang'], ans:0, exp:'Sel tubuh manusia normal memiliki 23 pasang kromosom (46 kromosom total): 22 pasang autosom (kromosom tubuh) + 1 pasang gonosom (kromosom kelamin, XX untuk wanita, XY untuk pria).' },
+  { q:'Hukum Mendel I (Law of Segregation) menyatakan bahwa...', opts:['Gen-gen yang tidak tertaut berpadu secara bebas','Pasangan alel memisah saat pembentukan gamet','Sifat dominan selalu muncul','Gen-gen bertaut tidak dapat dipisah'], ans:1, exp:'Hukum Mendel I / Hukum Segregasi: pasangan alel (gen) dari kedua induk akan memisah saat pembentukan sel gamet, sehingga setiap gamet hanya membawa satu alel dari setiap pasangan gen.' },
+  { q:'Upaya melestarikan sumber daya hayati dengan cara membudidayakan spesies langka di kebun binatang disebut...', opts:['Konservasi in situ','Konservasi ex situ','Rehabilitasi','Remediasi'], ans:1, exp:'Konservasi ex situ adalah pelestarian di luar habitat aslinya, seperti kebun binatang, kebun botani, dan penangkaran. Konservasi in situ dilakukan di habitat aslinya seperti cagar alam dan taman nasional.' },
+  { q:'Dampak penipisan lapisan ozon terhadap kehidupan di bumi adalah...', opts:['Suhu bumi menurun','Curah hujan meningkat','Radiasi ultraviolet berlebih mencapai bumi','Oksigen di atmosfer berkurang'], ans:2, exp:'Lapisan ozon berfungsi menyerap sebagian besar radiasi UV berbahaya dari matahari. Jika lapisan ozon menipis, lebih banyak UV sampai ke permukaan bumi, meningkatkan risiko kanker kulit dan kerusakan DNA.' },
+  { q:'Gas yang dihasilkan dari proses pernapasan sel (respirasi) yang dapat memperparah efek rumah kaca adalah...', opts:['O₂','N₂','CO₂','H₂'], ans:2, exp:'Respirasi sel menghasilkan CO₂ sebagai produk sampingan: C₆H₁₂O₆ + O₂ → CO₂ + H₂O + energi. CO₂ adalah gas rumah kaca utama. Namun dalam ekosistem seimbang, CO₂ diserap kembali oleh tumbuhan.' },
+  { q:'Penyebab banjir yang berkaitan langsung dengan kerusakan hutan adalah...', opts:['Meningkatnya suhu udara','Berkurangnya penguapan air','Hilangnya akar pohon sebagai penahan air','Naiknya permukaan air laut'], ans:2, exp:'Akar pohon berfungsi menyerap dan menahan air hujan (fungsi hidroorologis). Saat hutan rusak, tidak ada akar pohon yang menyerap air, sehingga air hujan langsung mengalir di permukaan dan menyebabkan banjir.' },
+  { q:'Proses yang terjadi saat vaksin dimasukkan ke dalam tubuh adalah...', opts:['Tubuh langsung kebal terhadap semua penyakit','Antigen merangsang sistem imun membentuk antibodi dan sel memori','Virus/bakteri dalam vaksin langsung mati','Tubuh menghasilkan demam permanen'], ans:1, exp:'Vaksin berisi antigen yang dilemahkan/dimatikan. Saat masuk ke tubuh, antigen merangsang sistem imun untuk membentuk antibodi dan sel memori. Sel memori inilah yang memberikan kekebalan jangka panjang.' },
+  { q:'Bioremediasi adalah proses...', opts:['Pengolahan pangan menggunakan mikroba','Rekayasa gen pada tanaman','Penggunaan organisme (biasanya mikroba) untuk membersihkan lingkungan tercemar','Kloning hewan'], ans:2, exp:'Bioremediasi adalah penggunaan organisme hidup, terutama mikroorganisme (bakteri, jamur), untuk mendegradasi atau mendetoksifikasi polutan lingkungan. Contoh: bakteri pemakan minyak untuk mengatasi tumpahan minyak.' },
+  { q:'Kecap merupakan produk fermentasi kedelai yang menggunakan jamur...', opts:['Rhizopus oryzae','Aspergillus wentii','Saccharomyces cerevisiae','Penicillium notatum'], ans:1, exp:'Kecap dibuat dari fermentasi kedelai oleh jamur Aspergillus wentii (dan Aspergillus sojae). Proses fermentasi mengubah protein kedelai menjadi asam amino yang memberi cita rasa khas kecap.' },
+  { q:'Rekayasa genetika dalam pembuatan insulin menggunakan organisme...', opts:['Jamur ragi','Bakteri E. coli','Tanaman kedelai','Virus fag'], ans:1, exp:'Bakteri E. coli (Escherichia coli) digunakan sebagai inang dalam pembuatan insulin sintetis. Gen insulin manusia disisipkan ke plasmid E. coli, kemudian bakteri berkembang biak dan memproduksi insulin.' },
+  { q:'Pada persilangan dihibrid, hukum Mendel yang berlaku adalah...', opts:['Hukum Segregasi','Hukum Dominasi','Hukum Pemadu Bebas (Independent Assortment)','Hukum Hardy-Weinberg'], ans:2, exp:'Persilangan dihibrid menunjukkan Hukum Mendel II (Law of Independent Assortment / Hukum Pemadu Bebas): gen-gen yang tidak bertaut akan berpadu secara bebas dan independen saat pembentukan gamet.' },
+  { q:'Limbah industri yang mengandung logam berat seperti merkuri (Hg) termasuk limbah...', opts:['Limbah organik','Limbah anorganik','Limbah B3 (Bahan Berbahaya dan Beracun)','Limbah cair biasa'], ans:2, exp:'Merkuri (Hg) dan logam berat lainnya termasuk Limbah B3 (Bahan Berbahaya dan Beracun). Limbah jenis ini memerlukan penanganan khusus karena sangat berbahaya bagi kesehatan dan lingkungan.' },
+  { q:'Antibiotik pertama, penisilin, dihasilkan oleh...', opts:['Saccharomyces cerevisiae','Penicillium notatum','Lactobacillus acidophilus','Aspergillus niger'], ans:1, exp:'Penisilin adalah antibiotik pertama yang ditemukan oleh Alexander Fleming pada 1928, dihasilkan oleh jamur Penicillium notatum (kini Penicillium chrysogenum). Ini adalah salah satu produk bioteknologi modern penting.' },
+  { q:'Dalam diagram silsilah genetika, simbol lingkaran (○) biasanya mewakili...', opts:['Individu laki-laki','Individu perempuan','Individu yang sakit','Individu yang meninggal'], ans:1, exp:'Dalam pedigree/diagram silsilah, simbol lingkaran (○) mewakili individu perempuan, sedangkan simbol kotak (□) mewakili individu laki-laki.' },
+  { q:'Penggunaan pestisida secara berlebihan dapat menimbulkan dampak negatif berupa...', opts:['Meningkatnya populasi hama','Tanah semakin subur','Pencemaran tanah dan air serta resistensi hama','Berkurangnya polusi udara'], ans:2, exp:'Penggunaan pestisida berlebihan menyebabkan: pencemaran tanah dan air, kematian organisme bukan target (cacing, lebah), dan resistensi hama (hama menjadi kebal terhadap pestisida).' },
+  { q:'Tanaman transgenik adalah tanaman yang...', opts:['Disilangkan dengan tanaman dari spesies berbeda','Ditanam menggunakan teknik modern','Memiliki gen dari organisme lain yang disisipkan','Tumbuh di lingkungan ekstrem'], ans:2, exp:'Tanaman transgenik adalah tanaman yang genomnya telah dimodifikasi dengan menyisipkan gen dari organisme lain. Contoh: jagung Bt yang mengandung gen bakteri Bacillus thuringiensis untuk ketahanan terhadap hama.' },
+  { q:'Efek rumah kaca yang berlebihan akan mengakibatkan...', opts:['Suhu bumi menurun drastis','Pemanasan global dan perubahan iklim','Lapisan ozon menguat','Curah hujan berkurang di seluruh dunia'], ans:1, exp:'Efek rumah kaca yang berlebihan menyebabkan pemanasan global: suhu rata-rata bumi meningkat, mencairnya es kutub, naiknya permukaan laut, dan perubahan iklim global yang ekstrem.' },
+  { q:'Perubahan yang terjadi pada persamaan reaksi kimia setara adalah...', opts:['Jumlah mol zat bertambah','Jumlah atom kiri ≠ jumlah atom kanan','Massa total reaktan = massa total produk','Jenis atom berubah'], ans:2, exp:'Dalam persamaan kimia setara, berlaku Hukum Kekekalan Massa (Lavoisier): massa total reaktan = massa total produk. Jumlah atom tiap unsur di kiri = jumlah atom di kanan.' },
+];
+
+// ===== QUIZ LOGIC =====
+let quizState = { active: false, answers: {}, current: 0 };
+
+function startQuiz() {
+  quizState = { active: true, answers: {}, current: 0 };
+  document.getElementById('quizStart').style.display = 'none';
+  document.getElementById('quizScore').style.display = 'none';
+  document.getElementById('quizMain').style.display = 'block';
+  renderQuestion(0);
+}
+
+function renderQuestion(idx) {
+  quizState.current = idx;
+  const main = document.getElementById('quizMain');
+  const q = quizData[idx];
+  const answered = quizState.answers[idx];
+  const letters = ['A','B','C','D'];
+
+  let optsHTML = q.opts.map((opt, i) => {
+    let cls = 'q-option';
+    if (answered !== undefined) {
+      cls += ' locked';
+      if (i === q.ans) cls += ' correct';
+      else if (i === answered && i !== q.ans) cls += ' wrong';
+    }
+    return `<button class="${cls}" onclick="answerQ(${idx}, ${i})"${answered !== undefined ? ' disabled' : ''}>
+      <span class="option-letter">${letters[i]}</span>${opt}
+    </button>`;
+  }).join('');
+
+  const expShow = answered !== undefined ? 'show' : '';
+
+  main.innerHTML = `
+    <div class="quiz-nav-row" id="qNavRow"></div>
+    <div class="question-card">
+      <div class="q-meta">
+        <span class="q-num">Soal ${idx + 1} dari ${quizData.length}</span>
+        <span class="q-category">IPA Kelas IX</span>
+      </div>
+      <div class="q-text">${q.q}</div>
+      <div class="q-options">${optsHTML}</div>
+      <div class="q-explanation ${expShow}">
+        💡 <strong>Penjelasan:</strong> ${q.exp}
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;justify-content:space-between;flex-wrap:wrap">
+      <button class="score-btn btn-outline" onclick="prevQ()" ${idx===0?'style="opacity:0.3;pointer-events:none"':''}>← Sebelumnya</button>
+      ${idx < quizData.length-1 ? `<button class="score-btn btn-primary" onclick="nextQ()">Selanjutnya →</button>` : `<button class="score-btn btn-primary" onclick="finishQuiz()">🏁 Selesai</button>`}
+    </div>`;
+  
+  renderNavBtns();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function renderNavBtns() {
+  const row = document.getElementById('qNavRow');
+  if (!row) return;
+  row.innerHTML = quizData.map((_, i) => {
+    let cls = 'q-nav-btn';
+    if (i === quizState.current) cls += ' current';
+    else if (quizState.answers[i] !== undefined) {
+      cls += quizState.answers[i] === quizData[i].ans ? ' answered-correct' : ' answered-wrong';
+    }
+    return `<button class="${cls}" onclick="goToQ(${i})">${i+1}</button>`;
+  }).join('');
+}
+
+function answerQ(qIdx, optIdx) {
+  if (quizState.answers[qIdx] !== undefined) return;
+  quizState.answers[qIdx] = optIdx;
+  renderQuestion(qIdx);
+}
+
+function nextQ() {
+  if (quizState.current < quizData.length - 1) renderQuestion(quizState.current + 1);
+}
+function prevQ() {
+  if (quizState.current > 0) renderQuestion(quizState.current - 1);
+}
+function goToQ(idx) {
+  renderQuestion(idx);
+}
+
+function finishQuiz() {
+  const unanswered = quizData.filter((_, i) => quizState.answers[i] === undefined).length;
+  if (unanswered > 0) {
+    if (!confirm(`Masih ada ${unanswered} soal belum dijawab. Lanjutkan selesaikan?`)) return;
+  }
+
+  let correct = 0, wrong = 0;
+  quizData.forEach((q, i) => {
+    if (quizState.answers[i] === q.ans) correct++;
+    else if (quizState.answers[i] !== undefined) wrong++;
+  });
+  const score = Math.round((correct / quizData.length) * 100);
+  
+  if (correct >= 40) spawnConfetti();
+  
+  const wrongItems = quizData.map((q, i) => ({q, i, ua: quizState.answers[i]})).filter(x => x.ua !== undefined && x.ua !== x.q.ans);
+  
+  document.getElementById('quizMain').style.display = 'none';
+  const scoreEl = document.getElementById('quizScore');
+  scoreEl.style.display = 'block';
+  
+  let grade = score >= 90 ? '🏆 Luar Biasa!' : score >= 75 ? '⭐ Bagus!' : score >= 60 ? '👍 Cukup Baik' : '📚 Perlu Belajar Lagi';
+
+  scoreEl.innerHTML = `
+    <div class="score-screen">
+      <div style="font-size:3rem;margin-bottom:8px">${grade.split(' ')[0]}</div>
+      <div class="score-big">${score}</div>
+      <div class="score-label">Skor Kamu — ${grade.split(' ').slice(1).join(' ')}</div>
+      <div class="score-stats">
+        <div class="score-stat"><div class="score-stat-val green">${correct}</div><div class="score-stat-label">Benar</div></div>
+        <div class="score-stat"><div class="score-stat-val red">${wrong}</div><div class="score-stat-label">Salah</div></div>
+        <div class="score-stat"><div class="score-stat-val" style="color:var(--text3)">${quizData.length - correct - wrong}</div><div class="score-stat-label">Dilewati</div></div>
+      </div>
+      <div class="score-actions">
+        <button class="score-btn btn-primary" onclick="startQuiz()">🔁 Ulangi Soal</button>
+        ${wrongItems.length > 0 ? `<button class="score-btn btn-outline" onclick="toggleWrongReview()">📋 Lihat Soal Salah</button>` : ''}
+        <button class="score-btn btn-outline" onclick="switchToMateri()">📚 Buka Materi</button>
+      </div>
+      <div id="wrongReview" class="wrong-review" style="display:none">
+        <div class="wrong-review-title">📋 Soal yang Jawabannya Salah (${wrongItems.length} soal):</div>
+        ${wrongItems.map(({q, i, ua}) => `
+          <div class="wrong-item">
+            <div class="wrong-q">Soal ${i+1}: ${q.q}</div>
+            <div class="wrong-detail">
+              ❌ Jawabanmu: ${['A','B','C','D'][ua]}. ${q.opts[ua]}<br>
+              <span class="correct-ans">✅ Jawaban benar: ${['A','B','C','D'][q.ans]}. ${q.opts[q.ans]}</span><br>
+              💡 ${q.exp}
+            </div>
+          </div>`).join('')}
+      </div>
+    </div>`;
+}
+
+function toggleWrongReview() {
+  const el = document.getElementById('wrongReview');
+  el.style.display = el.style.display === 'none' ? 'block' : 'none';
+}
+
+function switchToMateri() {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-materi').classList.add('active');
+  document.querySelector('.nav-tab').classList.add('active');
+}
+
+// ===== CONFETTI =====
+function spawnConfetti() {
+  const emojis = ['🎉','⭐','🏆','🎊','✨','🎯','🥳','💫'];
+  for(let i=0;i<20;i++) {
+    setTimeout(() => {
+      const el = document.createElement('div');
+      el.className = 'confetti-piece';
+      el.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+      el.style.left = Math.random() * 100 + 'vw';
+      el.style.animationDuration = (1.5 + Math.random() * 2) + 's';
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 3000);
+    }, i * 100);
+  }
+}
+
+// ===== INIT =====
+renderMateri();
+</script>
+</body>
+</html>
